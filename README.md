@@ -1,4 +1,4 @@
-# Repost — keep it lit
+# Repost - keep it lit
 
 > Part of my [portfolio](https://github.com/Spendry/portfolio).
 
