@@ -190,7 +190,7 @@
         <span class="vital" title="" id="v-titles-wrap">titles <b style="color:var(--war)" id="v-titles">0</b></span>
       </div>
     </div>
-    <div class="emberbar" title="Your ember — spent on every action so spam is self-limiting. Regenerates over time, and contributing to high-standing posts refunds more than it costs.">
+    <div class="emberbar" title="Your ember - spent on every action so spam is self-limiting. Regenerates over time, and contributing to high-standing posts refunds more than it costs.">
       <span class="lbl">your ember</span>
       <div class="track"><div class="fill" id="ember-fill"></div></div>
       <span class="num" id="ember-num"></span>
@@ -198,17 +198,17 @@
     <div class="controls">
       <span class="ctl-label">feed</span>
       <div class="seg" id="sort" role="group" aria-label="feed sort" title="How the feed is ordered">
-        <button data-sort="dying" aria-pressed="true" title="Closest to death first — the rescue feed">dying</button>
+        <button data-sort="dying" aria-pressed="true" title="Closest to death first - the rescue feed">dying</button>
         <button data-sort="hot" aria-pressed="false" title="Most distinct supporters first">hot</button>
         <button data-sort="new" aria-pressed="false" title="Newest posts first">new</button>
         <button data-sort="grade" aria-pressed="false" title="Highest grade / standing first">grade</button>
       </div>
       <button class="toggle" id="reshares" aria-pressed="true" title="Surface additions (reposts that added content) as their own feed entries. Bare reposts stay as a count on the original."><span class="led" style="background:var(--spark);box-shadow:0 0 8px var(--spark)"></span> 💬 additions in feed</button>
     </div>
-    <div class="controls simbar" title="These exist only to drive and observe the mockup — none of this ships in a real app">
+    <div class="controls simbar" title="These exist only to drive and observe the mockup - none of this ships in a real app">
       <span class="sim-tag">⚙ sim-only · strip for production</span>
       <span class="ctl-label" style="margin-left:2px">pace</span>
-      <div class="seg sim-only" id="speed" role="group" title="Accelerated clock — compresses time so you can watch decay. A real app runs in real time.">
+      <div class="seg sim-only" id="speed" role="group" title="Accelerated clock - compresses time so you can watch decay. A real app runs in real time.">
         <button data-speed="10" aria-pressed="false" title="1 sec ≈ 10 min">slow</button>
         <button data-speed="60" aria-pressed="true" title="1 sec ≈ 1 hr (24h post dies in ~24s)">normal</button>
         <button data-speed="240" aria-pressed="false" title="1 sec ≈ 4 hr">fast</button>
@@ -226,7 +226,7 @@
       <button class="toggle sim-only" id="viral" aria-pressed="false" title="Crank simulated crowd activity: popular posts pull crowds, branches deepen"><span class="led"></span> viral sim</button>
       <button class="toggle sim-only" id="spawn-viral" style="color:var(--flame-tip);border-color:rgba(255,210,122,.35)" title="Drop in a pre-populated already-popular post (lots of supporters + a branch tree)">🔥 + viral post</button>
       <button class="toggle sim-only" id="analytics-btn" style="color:var(--spark)" title="Compute lifespan and contribution analytics over every post this session">📊 analytics</button>
-      <button class="toggle sim-only" id="growth-spike" style="color:var(--ember)" title="Simulate a sudden surge of users/engagement so you can watch the regime harden — and watch the slew cap absorb it instead of tanking the feed">📈 growth spike</button>
+      <button class="toggle sim-only" id="growth-spike" style="color:var(--ember)" title="Simulate a sudden surge of users/engagement so you can watch the regime harden - and watch the slew cap absorb it instead of tanking the feed">📈 growth spike</button>
       <span class="sim-tag" id="regime-readout" style="color:var(--flame-tip);align-self:center"></span>
     </div>
     <div class="composer">
@@ -238,7 +238,7 @@
             <button data-ttl="360" aria-pressed="true">6h</button>
             <button data-ttl="1440" aria-pressed="false">24h</button>
           </div>
-          <span class="ttlnote" title="A shorter burn gives a bigger early ignition bonus (more potential per repost right after posting) — but far less time to catch on. High conviction, high variance.">shorter = riskier · bigger early ignition</span>
+          <span class="ttlnote" title="A shorter burn gives a bigger early ignition bonus (more potential per repost right after posting) - but far less time to catch on. High conviction, high variance.">shorter = riskier · bigger early ignition</span>
         </div>
         <button class="btn-primary" id="post-btn">Light it</button>
       </div>
@@ -246,7 +246,7 @@
     <div class="legend" id="legend"></div>
   </header>
   <div class="feedhead"><h2 id="feed-label">Dying first</h2><div class="rule"></div><span class="count"><span id="alive-count">0</span> alive</span></div>
-  <button id="reorder-pill" style="display:none;width:100%;margin:0 0 12px;font-family:var(--mono);font-size:11px;background:var(--surface-2);color:var(--spark);border:1px solid rgba(159,216,230,.3);border-radius:10px;padding:9px;cursor:pointer">↻ feed reordered — tap to update</button>
+  <button id="reorder-pill" style="display:none;width:100%;margin:0 0 12px;font-family:var(--mono);font-size:11px;background:var(--surface-2);color:var(--spark);border:1px solid rgba(159,216,230,.3);border-radius:10px;padding:9px;cursor:pointer">↻ feed reordered - tap to update</button>
   <div id="feed"></div>
   <div class="panel" id="analytics-panel"></div>
   <div class="grave"><div class="feedhead"><h2>Ash</h2><div class="rule"></div><span class="count"><span id="dead-count">0</span> gone cold</span></div>
@@ -268,7 +268,7 @@ const GRADES=[
   {name:"Inferno",color:"#9FD8E6",extra:233280,nhalf:192,surge:Infinity},
 ];
 const MAXG=GRADES.length-1;
-const NODE_MAXG=2;            // branches can grow, but only up to Flame — they stay a "small subset"
+const NODE_MAXG=2;            // branches can grow, but only up to Flame - they stay a "small subset"
 const LIFT_FACTOR=0.22, LIFT_CAP=1.5;
 const TRAITS={
   warforged:{label:"war-forged",path:"clutch"},
@@ -389,15 +389,15 @@ const tier=e=>Math.round(standing(e));                       // effective tier u
 function liftOf(e){return standing(e)-e.grade;}
 // branch titles: an addition that proves itself earns a title that buffs it AND the post above it
 const BRANCH_TITLES={
-  keystone:{label:"Keystone",desc:"5+ distinct supporters — channels far more life up and counts double toward the trunk's standing"},
-  wellspring:{label:"Wellspring",desc:"grew its own sub-branches — adds a flat standing bump to the trunk"},
-  lodestar:{label:"Lodestar",desc:"clutch-saved from the brink — decays slower and channels a little extra"},
+  keystone:{label:"Keystone",desc:"5+ distinct supporters - channels far more life up and counts double toward the trunk's standing"},
+  wellspring:{label:"Wellspring",desc:"grew its own sub-branches - adds a flat standing bump to the trunk"},
+  lodestar:{label:"Lodestar",desc:"clutch-saved from the brink - decays slower and channels a little extra"},
 };
 function awardBranchTitle(b,key){
   if(b.btitles.has(key))return;
   b.btitles.add(key);
   if(b.el)flash(b,`✦ ${BRANCH_TITLES[key].label}`,"var(--war)");
-  if(b.author===ME.h)showToast(`✦ your addition earned <b>${BRANCH_TITLES[key].label}</b><br><span style="opacity:.7;font-size:11px">${BRANCH_TITLES[key].desc} — it strengthens the post above it too</span>`);
+  if(b.author===ME.h)showToast(`✦ your addition earned <b>${BRANCH_TITLES[key].label}</b><br><span style="opacity:.7;font-size:11px">${BRANCH_TITLES[key].desc} - it strengthens the post above it too</span>`);
 }
 function checkBranchTitles(b,f){
   if(distinct(b)>=5) awardBranchTitle(b,"keystone");
@@ -423,7 +423,7 @@ function updateRegime(){
   saveEvents=saveEvents.filter(t=>now-t<8000);
   const active=Math.max(1,roots.filter(e=>!e.dead).length);
   const dInstant=(saveEvents.length/8)/active;              // saves/sec per active post
-  appDensity += (dInstant-appDensity)*0.06;                 // slow trailing average — never snaps
+  appDensity += (dInstant-appDensity)*0.06;                 // slow trailing average - never snaps
   const d=appDensity;
   appDecayScale = clamp(0.5 + d*5.5, 0.5, 1.7);             // sparse: gentle. dense: brutal.
   appCeilingScale= clamp(0.6 + d*4.5, 0.6, 1.5);            // sparse: low ceilings. dense: room to grow.
@@ -610,9 +610,9 @@ function resolveClash(loser){
 /* ---------- render ---------- */
 const feedEl=document.getElementById("feed"), graveEl=document.getElementById("graveyard");
 function gradeBadge(e){const g=GRADES[e.grade];const lift=liftOf(e);const extra=lift>=0.05?`<span style="opacity:.75;font-size:8px;margin-left:1px">+${lift.toFixed(1)}</span>`:"";return `<span class="grade-badge" style="color:${g.color};border-color:${g.color}55;background:${g.color}14" title="Grade ${g.name}${lift>=0.05?` · +${lift.toFixed(1)} party lift from branches → standing tier ${tier(e)}`:""}. Higher grade = a higher life ceiling and a tougher weight class."><span class="pip" style="background:${g.color};box-shadow:0 0 6px ${g.color}"></span>${g.name}${extra}</span>`;}
-const TRAIT_DESC={warforged:"war-forged — earned by a clutch brink-save. Resists clash pressure and is harder to crack.",deepburn:"deep-burning — earned by endurance. Decays slower and resists grade-slip.",anchor:"anchoring — earned by a wide built-upon tree. Harder to ascend against; branches feed it harder.",radiant:"radiant — earned by reach. Pulls extra ambient engagement.",veteran:"veteran — earned by winning a clash. Enters future fights with a shield."};
+const TRAIT_DESC={warforged:"war-forged - earned by a clutch brink-save. Resists clash pressure and is harder to crack.",deepburn:"deep-burning - earned by endurance. Decays slower and resists grade-slip.",anchor:"anchoring - earned by a wide built-upon tree. Harder to ascend against; branches feed it harder.",radiant:"radiant - earned by reach. Pulls extra ambient engagement.",veteran:"veteran - earned by winning a clash. Enters future fights with a shield."};
 function traitChips(e){return[...e.traits].map(t=>`<span class="trait-chip" title="${TRAIT_DESC[t]||TRAITS[t].path}">${TRAITS[t].label}</span>`).join("");}
-function epochChip(e){const ep=EPOCHS[clamp(e.bornEpoch,0,EPOCHS.length-1)];const buf=Math.min(0.7,(Math.round(appMaturity)-e.bornEpoch)*0.25);return `<span class="trait-chip" style="color:var(--war);border-color:rgba(205,182,255,.3)" title="Born in the ${ep.name} epoch${e.bornEpoch===0?' — a First Bearer of the Flame, the rarest founder mark':''}. ${buf>0.05?`Buffered ${Math.round(buf*100)}% toward its birth regime, so harshening eases in rather than snapping.`:'Born in the current era.'}">⟡ ${ep.name}</span>`;}
+function epochChip(e){const ep=EPOCHS[clamp(e.bornEpoch,0,EPOCHS.length-1)];const buf=Math.min(0.7,(Math.round(appMaturity)-e.bornEpoch)*0.25);return `<span class="trait-chip" style="color:var(--war);border-color:rgba(205,182,255,.3)" title="Born in the ${ep.name} epoch${e.bornEpoch===0?' - a First Bearer of the Flame, the rarest founder mark':''}. ${buf>0.05?`Buffered ${Math.round(buf*100)}% toward its birth regime, so harshening eases in rather than snapping.`:'Born in the current era.'}">⟡ ${ep.name}</span>`;}
 
 function buildCard(e){
   const[bg,fg]=colorFor(e.author);
@@ -624,13 +624,13 @@ function buildCard(e){
      <div class="badges js-badges">${gradeBadge(e)}${traitChips(e)}</div>
    </div>
    <div class="ptext">${esc(e.text)}</div>
-   <div class="lifeline-wrap"><div class="lifeline" title="Life remaining, scaled to this grade's hard ceiling (the wall at the right end)"><div class="track"><div class="fill js-fill"></div></div><div class="marker js-marker" title="Reachable now — the furthest reposts can push this post at its current supporter count. It creeps toward the wall as more distinct people join, but never past it."></div><div class="wall" title="The grade ceiling. Life can never cross this — the post will always eventually die. Ascending moves the wall outward."></div></div>
+   <div class="lifeline-wrap"><div class="lifeline" title="Life remaining, scaled to this grade's hard ceiling (the wall at the right end)"><div class="track"><div class="fill js-fill"></div></div><div class="marker js-marker" title="Reachable now - the furthest reposts can push this post at its current supporter count. It creeps toward the wall as more distinct people join, but never past it."></div><div class="wall" title="The grade ceiling. Life can never cross this - the post will always eventually die. Ascending moves the wall outward."></div></div>
      <div class="ll-caption"><span class="js-capL"></span><span class="js-capR"></span></div></div>
-   <div class="vrow"><span class="clock js-clock" title="Time left before this post burns down"></span><span class="sep">·</span><span class="js-reposts" title="Total reposts"></span><span class="dist js-dist" title="Distinct supporters — this drives the falloff, the reachable ceiling, and grade progress"></span><span class="js-save"></span><span class="tidi js-tidi"></span><span class="js-decay" title="Decay rate. 1.0× = time burns life one-for-one. Above 1 burns faster (ember storm), below 1 slower (deep-burning, lodestar, clash time-dilation)."></span><span class="js-ignite" style="color:var(--flame-tip)" title="Ignition bonus active — early reposts on this confident short-burn post buy extra life"></span></div>
+   <div class="vrow"><span class="clock js-clock" title="Time left before this post burns down"></span><span class="sep">·</span><span class="js-reposts" title="Total reposts"></span><span class="dist js-dist" title="Distinct supporters - this drives the falloff, the reachable ceiling, and grade progress"></span><span class="js-save"></span><span class="tidi js-tidi"></span><span class="js-decay" title="Decay rate. 1.0× = time burns life one-for-one. Above 1 burns faster (ember storm), below 1 slower (deep-burning, lodestar, clash time-dilation)."></span><span class="js-ignite" style="color:var(--flame-tip)" title="Ignition bonus active - early reposts on this confident short-burn post buy extra life"></span></div>
    <div class="clashrow js-clash"><span class="js-clash-label"></span><div class="pbar"><i class="js-clash-bar"></i></div></div>
    <div class="pactions">
      <button class="act fuel js-repost" title="Keep-alive vote. Extends the post a little (more if you're a fresh supporter), costs ${COST.repost} ember, refunds more on high-standing posts. Leaves no mark on the tree.">♻ repost <span class="cost">${COST.repost}◆</span></button>
-     <button class="act js-add" title="Repost AND add your take. Costs more, extends more, and grows a living branch — a sub-post with its own life that feeds life back up to this one.">＋ add <span class="cost">${COST.content}◆</span></button>
+     <button class="act js-add" title="Repost AND add your take. Costs more, extends more, and grows a living branch - a sub-post with its own life that feeds life back up to this one.">＋ add <span class="cost">${COST.content}◆</span></button>
      <button class="act zone js-zone" title="Hearth = safe, can't be challenged, slower grade. The open = can clash for faster grade, at the cost of faster death."></button>
      <button class="act war js-challenge" style="display:none" title="Pick an eligible opponent in the open (within one tier of your standing) and start a clash.">⚔ challenge <span class="cost">${COST.challenge}◆</span></button>
      <button class="act js-pin" title="Pin to the top of the feed while you work on it, regardless of its life or sort order.">⊚ pin</button>
@@ -659,11 +659,11 @@ function buildReshareCard(b){
   el.innerHTML=`
    <div class="reshare-head"><div class="avatar" style="width:24px;height:24px;font-size:11px;background:${bg};color:${fg}">${initials(b.author)}</div> 💬 <b>@${b.author}</b> added <span class="from">· to @${root.author}'s post</span><span class="js-btitles" style="margin-left:auto"></span></div>
    <div class="ptext small">${esc(b.text)}</div>
-   <div class="lifeline-wrap"><div class="lifeline" title="This addition has its own life — keeping it alive feeds the original"><div class="track"><div class="fill js-fill"></div></div></div></div>
+   <div class="lifeline-wrap"><div class="lifeline" title="This addition has its own life - keeping it alive feeds the original"><div class="track"><div class="fill js-fill"></div></div></div></div>
    <div class="vrow"><span class="clock js-clock"></span><span class="sep">·</span><span class="js-dist"></span><span style="opacity:.6;color:var(--spark-dim)">· feeds @${root.author} ↑</span></div>
    <div class="pactions">
-     <button class="act fuel js-keep" title="Keep this addition alive — channels life up to the original (${COST.sub}◆)">♻ keep <span class="cost">${COST.sub}◆</span></button>
-     <button class="act js-addr" title="Add onto this addition right here — continues the branch without hunting down the original">＋ build on it</button>
+     <button class="act fuel js-keep" title="Keep this addition alive - channels life up to the original (${COST.sub}◆)">♻ keep <span class="cost">${COST.sub}◆</span></button>
+     <button class="act js-addr" title="Add onto this addition right here - continues the branch without hunting down the original">＋ build on it</button>
      <button class="act js-orig" title="Jump to the canonical original post">↳ original</button>
    </div>`;
   el.querySelector(".js-keep").onclick=ev=>youRepost(b,null,ev.currentTarget);
@@ -674,9 +674,9 @@ function buildReshareCard(b){
 
 function renderDrawer(e){
   const d=e.el&&e.el.querySelector(".js-drawer"); if(!d)return;
-  const alive=Math.max(0,simNow-e.created), firstR=e.firstReposter?("@"+e.firstReposter):"—";
+  const alive=Math.max(0,simNow-e.created), firstR=e.firstReposter?("@"+e.firstReposter):"-";
   const saver=e.closestSaver?`@${e.closestSaver} at ${Math.round(e.closestFrac*100)}%`:"never near death";
-  const g=GRADES[e.grade], nextNeed=e.grade<MAXG?`brink-surge ${GRADES[e.grade].surge+(e.traits.has("warforged")?2:0)+(e.traits.has("anchor")?3:0)} · or endurance / canon / reach / conquest`:"maxed — it will burn down";
+  const g=GRADES[e.grade], nextNeed=e.grade<MAXG?`brink-surge ${GRADES[e.grade].surge+(e.traits.has("warforged")?2:0)+(e.traits.has("anchor")?3:0)} · or endurance / canon / reach / conquest`:"maxed - it will burn down";
   const km=e.killmails.length?`<div class="killmail">⚔ spoils: ${e.killmails.map(k=>`${k.foe} (${k.grade})`).join(", ")}</div>`:"";
   d.innerHTML=`<div class="statgrid">
     <div class="stat"><span class="k" title="The grade this post earned on its own, plus any bounded 'party' lift from its branches. Standing sets its weight class in clashes.">grade · standing</span><span class="v" style="color:${g.color}">${g.name}${liftOf(e)>=0.05?` ·party +${liftOf(e).toFixed(1)} (tier ${tier(e)})`:""}${e.peakGrade>e.grade?` · peaked ${GRADES[e.peakGrade].name}`:""}</span></div>
@@ -687,7 +687,7 @@ function renderDrawer(e){
     <div class="stat"><span class="k" title="The lowest life this post ever fell to before someone saved it, and who made that clutch catch">closest save</span><span class="v spark">${saver}</span></div>
     <div class="stat"><span class="k" title="Living branches still channeling life up, out of all branches ever grown (dormant ones keep their record)">living branches</span><span class="v">${e.children.filter(c=>!c.dead).length} / ${e.children.length}</span></div>
     <div class="stat"><span class="k" title="The paths to the next grade: a brink-surge while dying, or one of the slower routes (endurance, canon, reach, conquest)">to ascend</span><span class="v">${nextNeed}</span></div>
-  </div>${km}<div class="tree-h">contribution tree — branches feed the trunk<span class="treesort" id="treesort-${e.id}">${["dying","supporters","grade","new"].map(s=>`<button data-ts="${s}" aria-pressed="${treeSort===s}" title="Sort branches by ${s}">${s}</button>`).join("")}</span></div><div class="tree js-tree"></div>`;
+  </div>${km}<div class="tree-h">contribution tree - branches feed the trunk<span class="treesort" id="treesort-${e.id}">${["dying","supporters","grade","new"].map(s=>`<button data-ts="${s}" aria-pressed="${treeSort===s}" title="Sort branches by ${s}">${s}</button>`).join("")}</span></div><div class="tree js-tree"></div>`;
   const ts=d.querySelector(`#treesort-${e.id}`);
   if(ts) ts.querySelectorAll("button").forEach(b=>b.onclick=()=>{treeSort=b.dataset.ts;renderDrawer(e);});
   renderTree(e,d.querySelector(".js-tree"));
@@ -704,18 +704,18 @@ function sortBranches(arr){
 function renderTree(root,container){
   container.innerHTML="";
   const kids=root.children;
-  if(!kids.length){container.innerHTML='<div class="empty-tree">No additions yet. A bare repost feeds the fire but leaves no mark — add something to grow a living branch.</div>';return;}
+  if(!kids.length){container.innerHTML='<div class="empty-tree">No additions yet. A bare repost feeds the fire but leaves no mark - add something to grow a living branch.</div>';return;}
   const nodeEl=e=>{
     const[bg,fg]=colorFor(e.author);
     const w=document.createElement("div"); w.className="node"+(e.dead?" dormant":"");
     const left=e.expires-simNow, wf=fracWall(e), col=rgbStr(emberColor(Math.min(1,Math.max(0,left/e.ttl))));
     w.innerHTML=`<div class="nline"><div class="ndot" style="background:${bg};color:${fg}">${initials(e.author)}</div>
-      <div class="nbody"><div class="nname"><b>@${e.author}</b> · ${distinct(e)} supporters${e.grade>0?` · <span style="color:${GRADES[e.grade].color};font-weight:700" title="This branch grew its own grade — it lifts the trunk's standing">${GRADES[e.grade].name}</span>`:""}${[...e.btitles].map(t=>`<span class="titlechip" title="${BRANCH_TITLES[t].desc}"> ✦${BRANCH_TITLES[t].label}</span>`).join("")}</div>
+      <div class="nbody"><div class="nname"><b>@${e.author}</b> · ${distinct(e)} supporters${e.grade>0?` · <span style="color:${GRADES[e.grade].color};font-weight:700" title="This branch grew its own grade - it lifts the trunk's standing">${GRADES[e.grade].name}</span>`:""}${[...e.btitles].map(t=>`<span class="titlechip" title="${BRANCH_TITLES[t].desc}"> ✦${BRANCH_TITLES[t].label}</span>`).join("")}</div>
       <div class="ncontent">${esc(e.text)}</div>
-      <div class="nlife" title="This branch's own life — it decays on the same rules at smaller scale"><i style="width:${(wf*100).toFixed(1)}%;background:${col};box-shadow:0 0 6px ${col}"></i></div>
+      <div class="nlife" title="This branch's own life - it decays on the same rules at smaller scale"><i style="width:${(wf*100).toFixed(1)}%;background:${col};box-shadow:0 0 6px ${col}"></i></div>
       <div class="nrow">${e.dead?'<span class="ndead" title="This branch ran out of life. Its text stays as part of the record but it no longer feeds the trunk.">▪ dormant · record kept</span>':`<span style="color:${col}">${fmtClock(left)} left</span>
-        <button class="nrepost" title="Keep this branch alive — costs ${COST.sub} ember and channels life up to the trunk">♻ keep <span style="opacity:.6">${COST.sub}◆</span></button>
-        <button class="nadd" title="Add a sub-branch under this one — the tree can nest, and depth proves a contribution's value">↳ build on this</button>
+        <button class="nrepost" title="Keep this branch alive - costs ${COST.sub} ember and channels life up to the trunk">♻ keep <span style="opacity:.6">${COST.sub}◆</span></button>
+        <button class="nadd" title="Add a sub-branch under this one - the tree can nest, and depth proves a contribution's value">↳ build on this</button>
         <span style="opacity:.6">feeds the trunk ↑</span>`}</div></div></div>`;
     if(!e.dead){
       w.querySelector(".nrepost").onclick=ev=>youRepost(e,null,ev.currentTarget);
@@ -732,7 +732,7 @@ function openAddBox(target,mountTarget,mount,isRootDrawer){
   if(activeAdd)activeAdd.remove();
   if(isRootDrawer){target.drawerOpen=true;target.el.querySelector(".js-stats").setAttribute("aria-expanded",true);mount.classList.add("open");renderDrawer(target);}
   const box=document.createElement("div");box.className="addbox";
-  box.innerHTML=`<textarea placeholder="${target.kind==="node"?"build on this branch…":"add your take — grows a living branch under this post"}" maxlength="240"></textarea>
+  box.innerHTML=`<textarea placeholder="${target.kind==="node"?"build on this branch…":"add your take - grows a living branch under this post"}" maxlength="240"></textarea>
    <div class="arow"><span class="hint">costs ${target.kind==="node"?COST.sub+4:COST.content}◆ · adds more than a bare repost · leaves a branch</span>
    <span><button class="btn-ghost js-cancel">cancel</button> <button class="btn-fuel js-send">repost &amp; add</button></span></div>`;
   const ta=box.querySelector("textarea");
@@ -850,7 +850,7 @@ function tickFrame(){
     if(e.clash){crow.classList.add("on");const opp=e.opponent;const oppLife=Math.max(0,opp.expires-simNow);const myLife=Math.max(0,e.expires-simNow);const tot=oppLife+myLife||1;e.el.querySelector(".js-clash-label").innerHTML=`⚔ vs @${opp.author} <span style="color:${GRADES[opp.grade].color}">${GRADES[opp.grade].name}</span>${e.shield>0?` · shield ${Math.round(e.shield)}`:""}`;e.el.querySelector(".js-clash-bar").style.width=(myLife/tot*100).toFixed(0)+"%";}
     else crow.classList.remove("on");
     e.el.classList.toggle("sprout",!!e.sprouting);
-    const meta=e.el.querySelector(".meta"); if(meta){const want=e.sprouting?`🌱 sprouting — rally ${Math.max(0,3-(distinct(e)-e.sproutBase))} more to take root`:"original"; if(meta.textContent!==want)meta.textContent=want;}
+    const meta=e.el.querySelector(".meta"); if(meta){const want=e.sprouting?`🌱 sprouting - rally ${Math.max(0,3-(distinct(e)-e.sproutBase))} more to take root`:"original"; if(meta.textContent!==want)meta.textContent=want;}
     const badges=e.el.querySelector(".js-badges"); const sig=e.grade+"|"+[...e.traits].join(",")+"|"+liftOf(e).toFixed(1)+"|"+e.bornEpoch;
     if(badges.dataset.sig!==sig){badges.innerHTML=epochChip(e)+gradeBadge(e)+traitChips(e);badges.dataset.sig=sig;}
   }
@@ -927,7 +927,7 @@ let lastEco=performance.now();
 setInterval(()=>{const now=performance.now();const dt=((now-lastEco)/1000)*pace;lastEco=now;ecosystem(dt);},500);
 setInterval(()=>{for(const e of roots){if(e.drawerOpen&&e.el&&!(activeAdd&&e.el.querySelector(".js-drawer")&&e.el.querySelector(".js-drawer").contains(activeAdd)))renderDrawer(e);}},1600);
 
-function updateVitals(){document.getElementById("v-saves").textContent=me.saves;document.getElementById("v-clutch").textContent=me.clutch;document.getElementById("v-asc").textContent=me.asc;document.getElementById("v-kill").textContent=me.kills;document.getElementById("v-titles").textContent=me.titles.size;const w=document.getElementById("v-titles-wrap");if(w)w.title=me.titles.size?[...me.titles].map(([n,d])=>`${n} — ${d}`).join("\n"):"Earn titles through what your posts achieve";}
+function updateVitals(){document.getElementById("v-saves").textContent=me.saves;document.getElementById("v-clutch").textContent=me.clutch;document.getElementById("v-asc").textContent=me.asc;document.getElementById("v-kill").textContent=me.kills;document.getElementById("v-titles").textContent=me.titles.size;const w=document.getElementById("v-titles-wrap");if(w)w.title=me.titles.size?[...me.titles].map(([n,d])=>`${n} - ${d}`).join("\n"):"Earn titles through what your posts achieve";}
 function showToast(html){const wrap=document.getElementById("toast-wrap");if(!wrap)return;const t=document.createElement("div");t.className="toast";t.innerHTML=html;wrap.appendChild(t);setTimeout(()=>{t.style.transition="opacity .4s";t.style.opacity="0";setTimeout(()=>t.remove(),400);},3200);}
 function awardTitle(name,desc){if(me.titles.has(name))return;me.titles.set(name,desc);updateVitals();showToast(`🏆 title earned · <b>${name}</b><br><span style="opacity:.7;font-size:11px">${desc}</span>`);}
 function checkPlayerTitles(){
@@ -948,7 +948,7 @@ function renderAnalytics(){
   const lifeAll=all.map(r=>r.lifespan);
   const gd=[0,0,0,0,0,0]; all.forEach(r=>{ for(let i=0;i<=r.peak;i++) gd[i]++; });   // cumulative: reached AT LEAST grade i (monotonic, so Inferno⊆Wildfire⊆…)
   const stat=(k,v)=>`<div class="am"><span class="k">${k}</span><span class="v">${v}</span></div>`;
-  panel.innerHTML=`<h3>Analytics — ${all.length} posts (${dead.length} dead · ${live.length} alive)</h3>
+  panel.innerHTML=`<h3>Analytics - ${all.length} posts (${dead.length} dead · ${live.length} alive)</h3>
    <div class="agrid">
     ${stat("lifespan · avg", fmtClock(avg(lifeAll)))}
     ${stat("lifespan · median", fmtClock(median(lifeAll)))}
@@ -980,13 +980,13 @@ document.getElementById("entropy").addEventListener("click",e=>{entropyOn=!entro
 document.getElementById("reshares").addEventListener("click",e=>{showReshares=!showReshares;e.currentTarget.setAttribute("aria-pressed",showReshares);applyOrder(true);});
 document.getElementById("advsort").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;advSort=b.dataset.adv;[...e.currentTarget.children].forEach(c=>c.setAttribute("aria-pressed",c===b));applyOrder(true);});
 document.getElementById("analytics-btn").addEventListener("click",()=>{const p=document.getElementById("analytics-panel");if(p.classList.contains("open")){p.classList.remove("open");}else{renderAnalytics();}});
-document.getElementById("growth-spike").addEventListener("click",()=>{appDensity=Math.min(0.22,appDensity+0.12);showToast("📈 <b>growth spike</b><br><span style=\"opacity:.7;font-size:11px\">engagement surged — watch the hearth harden and the slew cap ease posts in instead of tanking them</span>");});
+document.getElementById("growth-spike").addEventListener("click",()=>{appDensity=Math.min(0.22,appDensity+0.12);showToast("📈 <b>growth spike</b><br><span style=\"opacity:.7;font-size:11px\">engagement surged - watch the hearth harden and the slew cap ease posts in instead of tanking them</span>");});
 document.getElementById("viral").addEventListener("click",e=>{viral=!viral;e.currentTarget.setAttribute("aria-pressed",viral);});
 document.getElementById("spawn-viral").addEventListener("click",spawnViral);
 const composeEl=document.getElementById("compose");
 composeEl.addEventListener("input",()=>{composeEl.style.height="auto";composeEl.style.height=composeEl.scrollHeight+"px";document.getElementById("post-btn").disabled=!composeEl.value.trim();});
 document.getElementById("post-btn").disabled=true;
-function publish(){const t=composeEl.value.trim();if(!t)return;const e=makeEmber("root",ME.h,t,composeTTL,0,null);roots.push(e);if(e.bornEpoch===0)awardTitle("First Bearer of the Flame","posted while the hearth was barely lit — a permanent, unforgeable founder mark");composeEl.value="";composeEl.style.height="auto";document.getElementById("post-btn").disabled=true;reflow();setTimeout(()=>e.el&&e.el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"}),120);}
+function publish(){const t=composeEl.value.trim();if(!t)return;const e=makeEmber("root",ME.h,t,composeTTL,0,null);roots.push(e);if(e.bornEpoch===0)awardTitle("First Bearer of the Flame","posted while the hearth was barely lit - a permanent, unforgeable founder mark");composeEl.value="";composeEl.style.height="auto";document.getElementById("post-btn").disabled=true;reflow();setTimeout(()=>e.el&&e.el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"}),120);}
 document.getElementById("post-btn").onclick=publish;
 composeEl.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key==="Enter")publish();});
 
