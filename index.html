@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repost — keep it lit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15120E;--surface:#1F1A14;--surface-2:#272018;--line:#332b21;
+    --ash:#8A8174;--ash-dim:#5c554b;--text:#F0E7D8;
+    --flame-tip:#FFD27A;--ember:#F2A33C;--ember-hot:#E8782E;--dying:#E0532B;--cold:#4A453E;
+    --spark:#9FD8E6;--spark-dim:#5b8c98;--war:#cdb6ff;
+    --radius:14px;--mono:"JetBrains Mono",ui-monospace,monospace;--disp:"Bricolage Grotesque",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0;padding:0}
+  body{background:radial-gradient(120% 60% at 50% 100%,rgba(224,83,43,.06),transparent 60%),var(--bg);color:var(--text);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:680px;margin:0 auto;padding:0 16px 120px}
+  header.top{position:sticky;top:0;z-index:30;background:linear-gradient(var(--bg) 70%,rgba(21,18,14,.88));backdrop-filter:blur(8px);padding:16px 0 12px;border-bottom:1px solid var(--line)}
+  .brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .logo{font-family:var(--disp);font-weight:800;font-size:28px;letter-spacing:-.02em;color:var(--text);line-height:1}
+  .logo .dot{color:var(--ember)}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--ash);letter-spacing:.14em;text-transform:uppercase}
+  .vitals{display:flex;gap:13px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--ash);flex-wrap:wrap}
+  .vital b{color:var(--flame-tip);font-weight:700}.vital .spark{color:var(--spark)}.vital .asc{color:var(--war)}.vital .kill{color:var(--dying)}
+  .emberbar{margin-top:10px;display:flex;align-items:center;gap:9px}
+  .emberbar .lbl{font-family:var(--mono);font-size:10px;color:var(--ash-dim);letter-spacing:.1em;text-transform:uppercase}
+  .emberbar .track{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;max-width:240px}
+  .emberbar .fill{height:100%;background:linear-gradient(90deg,var(--ember-hot),var(--flame-tip));border-radius:99px;transition:width .2s}
+  .emberbar .num{font-family:var(--mono);font-size:11px;color:var(--flame-tip);min-width:54px}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:11px;flex-wrap:wrap}
+  .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{font-family:var(--mono);font-size:11px;background:transparent;color:var(--ash);border:0;padding:7px 11px;cursor:pointer;transition:background .15s,color .15s}
+  .seg button:hover{color:var(--text)}.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--flame-tip)}
+  .ctl-label{font-family:var(--mono);font-size:10px;color:var(--ash-dim);letter-spacing:.1em;text-transform:uppercase;margin-right:2px}
+  .toggle{font-family:var(--mono);font-size:11px;color:var(--ash);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 11px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+  .toggle .led{width:7px;height:7px;border-radius:50%;background:var(--cold);transition:.2s}
+  .toggle[aria-pressed="true"]{color:var(--text)}.toggle[aria-pressed="true"] .led{background:var(--dying);box-shadow:0 0 8px var(--dying)}
+  .composer{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+  .composer textarea{width:100%;background:transparent;border:0;resize:none;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;min-height:46px;outline:none}
+  .composer textarea::placeholder{color:var(--ash-dim)}
+  .composer .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;flex-wrap:wrap}
+  .ttl{display:flex;align-items:center;gap:8px}
+  .ttl .lbl{font-family:var(--mono);font-size:10px;color:var(--ash-dim);letter-spacing:.08em;text-transform:uppercase}
+  .ttlnote{font-family:var(--mono);font-size:10px;color:var(--ash-dim)}
+  .btn-primary{font-family:var(--disp);font-weight:600;font-size:14px;background:var(--ember);color:#1a120a;border:0;border-radius:10px;padding:9px 18px;cursor:pointer;transition:.1s}
+  .btn-primary:hover{background:var(--flame-tip)}.btn-primary:active{transform:translateY(1px)}
+  .btn-primary:disabled{background:var(--surface-2);color:var(--ash-dim);cursor:not-allowed}
+  .legend{font-family:var(--mono);font-size:10px;color:var(--ash-dim);display:flex;gap:10px;flex-wrap:wrap;margin:10px 2px 0}
+  .legend .lg{display:inline-flex;gap:5px;align-items:center}.legend .lg i{width:8px;height:8px;border-radius:2px}
+  .simbar{margin-top:8px;padding:8px 10px;border:1px dashed rgba(159,216,230,.28);border-radius:10px;background:rgba(159,216,230,.03)}
+  .sim-tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--spark-dim);align-self:center}
+  .sim-only{position:relative}
+  .treesort{display:inline-flex;gap:4px;margin-left:8px}
+  .treesort button{font-family:var(--mono);font-size:9px;background:transparent;border:1px solid var(--line);color:var(--ash-dim);border-radius:6px;padding:2px 6px;cursor:pointer}
+  .treesort button[aria-pressed="true"]{color:var(--flame-tip);border-color:rgba(255,210,122,.3)}
+  [title]{cursor:help}
+  .act[title],.toggle[title],.seg[title]{cursor:pointer}
+  .feedhead{display:flex;align-items:center;gap:10px;margin:24px 2px 10px}
+  .feedhead h2{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.02em;text-transform:uppercase;color:var(--ash);margin:0}
+  .feedhead .rule{flex:1;height:1px;background:var(--line)}
+  .count{font-family:var(--mono);font-size:11px;color:var(--ash-dim)}
+  .post{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 14px 12px;margin-bottom:12px;overflow:hidden;transition:opacity .5s,filter .5s,transform .5s,border-color .3s,box-shadow .3s}
+  .post.dying{border-color:rgba(224,83,43,.35)}
+  .post.open-zone{border-color:rgba(159,216,230,.3)}
+  .post.crit{animation:heartbeat 1.1s ease-in-out infinite}
+  @keyframes heartbeat{0%,100%{box-shadow:0 0 0 rgba(224,83,43,0)}50%{box-shadow:0 0 22px rgba(224,83,43,.22)}}
+  .post.dead{opacity:0;transform:scale(.97) translateY(6px);filter:grayscale(1) blur(1px);pointer-events:none}
+  .post.ascending{animation:ascendpulse .9s ease-out}
+  @keyframes ascendpulse{0%{box-shadow:0 0 0 rgba(159,216,230,0)}30%{box-shadow:0 0 50px rgba(159,216,230,.55)}100%{box-shadow:0 0 0 rgba(159,216,230,0)}}
+  .post.clashing{border-color:var(--dying)}
+  .post.sprout{border-color:rgba(242,163,60,.6);box-shadow:0 0 18px rgba(242,163,60,.15)}
+  .post.reshare{background:rgba(159,216,230,.04);border-color:rgba(159,216,230,.22);border-style:dashed}
+  .reshare-head{font-family:var(--mono);font-size:11px;color:var(--spark);margin-bottom:7px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  .reshare-head .from{color:var(--ash-dim)}
+  .ptext.small{font-size:14px;margin:0 0 10px;color:var(--ash)}
+  .toast-wrap{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+  .toast{font-family:var(--mono);font-size:12px;background:var(--surface-2);border:1px solid var(--war);color:var(--text);border-radius:10px;padding:9px 14px;box-shadow:0 6px 24px rgba(0,0,0,.4);animation:toastin .35s ease-out}
+  .toast b{color:var(--war)}
+  @keyframes toastin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .panel{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:none}
+  .panel.open{display:block}
+  .panel h3{font-family:var(--disp);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ash);margin:0 0 10px}
+  .panel .agrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px 14px}
+  .panel .am{font-family:var(--mono);font-size:11px}
+  .panel .am .k{display:block;color:var(--ash-dim);font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+  .panel .am .v{color:var(--flame-tip);font-size:15px}
+  .panel .gdist{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--ash);display:flex;gap:10px;flex-wrap:wrap}
+  .titlechip{font-family:var(--mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--war)}
+  .phead{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .avatar{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:14px;color:#16120c}
+  .who{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+  .who .name{font-family:var(--disp);font-weight:600;font-size:14px;color:var(--text)}
+  .who .meta{font-family:var(--mono);font-size:11px;color:var(--ash-dim)}
+  .badges{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .grade-badge{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:6px;padding:4px 8px;border:1px solid;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .grade-badge .pip{width:6px;height:6px;border-radius:50%}
+  .grade-badge.stamp{animation:stamp .7s cubic-bezier(.2,1.4,.3,1)}
+  @keyframes stamp{0%{transform:scale(2.2);opacity:0}55%{transform:scale(.92)}100%{transform:scale(1);opacity:1}}
+  .trait-chip{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:5px;padding:3px 6px;background:var(--surface-2);border:1px solid var(--line);color:var(--ash)}
+  .ptext{font-size:16px;line-height:1.5;color:var(--text);margin:2px 0 12px;white-space:pre-wrap;word-break:break-word}
+  .lifeline-wrap{margin:4px 0 9px}
+  .lifeline{position:relative;height:7px;border-radius:99px;background:rgba(255,255,255,.05)}
+  .lifeline .track{position:absolute;inset:0;border-radius:99px;overflow:hidden}
+  .lifeline .fill{position:absolute;left:0;top:0;bottom:0;border-radius:99px;transition:width .25s linear,background .3s}
+  .lifeline .fill::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:11px;height:11px;border-radius:50%;filter:blur(2px);opacity:.9;background:inherit}
+  .lifeline .marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--flame-tip);opacity:.55;transition:left .3s;border-radius:2px}
+  .lifeline .marker::after{content:"";position:absolute;top:-3px;left:-2px;width:6px;height:6px;border-radius:50%;background:var(--flame-tip);opacity:.7}
+  .lifeline .wall{position:absolute;right:0;top:-4px;bottom:-4px;width:2px;background:var(--spark);opacity:.5;border-radius:2px}
+  .ll-caption{font-family:var(--mono);font-size:9px;color:var(--ash-dim);margin-top:5px;display:flex;justify-content:space-between;gap:10px}
+  .vrow{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;color:var(--ash);flex-wrap:wrap}
+  .vrow .clock{font-weight:700;font-size:13px}.vrow .sep{color:var(--ash-dim)}.vrow .save{color:var(--spark)}.vrow .dist{color:var(--flame-tip)}
+  .vrow .tidi{color:var(--spark);font-weight:700}
+  .clashrow{display:none;margin-top:9px;padding:9px 10px;border:1px solid rgba(224,83,43,.4);border-radius:10px;background:rgba(224,83,43,.06);font-family:var(--mono);font-size:11px;color:var(--text);align-items:center;gap:9px;flex-wrap:wrap}
+  .clashrow.on{display:flex}
+  .clashrow .pbar{flex:1;min-width:80px;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+  .clashrow .pbar i{display:block;height:100%;background:var(--dying);width:0;transition:width .3s}
+  .pactions{display:flex;gap:8px;margin-top:11px;align-items:center;flex-wrap:wrap}
+  .act{font-family:var(--mono);font-size:12px;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;transition:.12s;display:inline-flex;gap:7px;align-items:center}
+  .act:hover{background:#2f2619;border-color:#43382a}.act:active{transform:translateY(1px)}
+  .act:disabled{opacity:.4;cursor:not-allowed}
+  .act.fuel{color:var(--flame-tip)}.act.war{color:var(--war)}.act.zone{color:var(--spark)}
+  .act .cost{font-size:9px;opacity:.7}
+  .act .stats-caret{transition:transform .2s}.act[aria-expanded="true"] .stats-caret{transform:rotate(90deg)}
+  .act.ml{margin-left:auto}
+  .shake{animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .floater{position:absolute;font-family:var(--mono);font-weight:700;font-size:13px;pointer-events:none;z-index:5;animation:rise 1.05s ease-out forwards}
+  @keyframes rise{0%{opacity:0;transform:translateY(4px) scale(.9)}18%{opacity:1}100%{opacity:0;transform:translateY(-26px) scale(1)}}
+  .ascend-banner{position:absolute;left:50%;top:36px;transform:translateX(-50%);font-family:var(--disp);font-weight:800;font-size:17px;letter-spacing:.02em;pointer-events:none;z-index:7;text-align:center;animation:ascendtext 1.7s ease-out forwards;text-shadow:0 0 18px currentColor}
+  @keyframes ascendtext{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.8)}22%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.05)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-18px) scale(1)}}
+  .drawer{margin-top:11px;border-top:1px dashed var(--line);padding-top:11px;display:none}.drawer.open{display:block}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:6px}
+  .stat{font-family:var(--mono);font-size:11px}
+  .stat .k{color:var(--ash-dim);text-transform:uppercase;letter-spacing:.08em;font-size:9px;display:block}
+  .stat .v{color:var(--text);font-size:12px}.stat .v.spark{color:var(--spark)}.stat .v.flame{color:var(--flame-tip)}
+  .killmail{font-family:var(--mono);font-size:10px;color:var(--dying);margin-top:6px}
+  .tree-h{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash-dim);margin:12px 0 6px}
+  .tree{display:flex;flex-direction:column}
+  .node{position:relative;padding:8px 0}
+  .node.dormant{opacity:.4}
+  .node .nline{display:flex;gap:8px;align-items:flex-start}
+  .node .ndot{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:10px;color:#16120c;margin-top:1px}
+  .node .nbody{flex:1;min-width:0}
+  .node .nname{font-family:var(--mono);font-size:11px;color:var(--ash)}.node .nname b{color:var(--text);font-weight:500}
+  .node .ncontent{font-size:14px;color:var(--text);margin-top:1px;word-break:break-word}
+  .node .nlife{position:relative;height:4px;border-radius:99px;background:rgba(255,255,255,.05);margin:6px 0 4px;overflow:hidden}
+  .node .nlife i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;transition:width .25s linear,background .3s}
+  .node .nrow{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--ash-dim);flex-wrap:wrap}
+  .node .nrepost,.node .nadd{font-family:var(--mono);font-size:10px;background:transparent;border:0;cursor:pointer;padding:2px 0;display:inline-flex;gap:4px}
+  .node .nrepost{color:var(--flame-tip)}.node .nrepost:hover{color:#fff}
+  .node .nadd{color:var(--spark-dim)}.node .nadd:hover{color:var(--spark)}
+  .node .nrepost:disabled{opacity:.4;cursor:not-allowed}
+  .node .ndead{font-family:var(--mono);font-size:10px;color:var(--ash-dim)}
+  .children{margin-left:11px;padding-left:11px;border-left:1px solid var(--line)}
+  .empty-tree{font-family:var(--mono);font-size:11px;color:var(--ash-dim)}
+  .addbox{margin-top:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px}
+  .addbox textarea{width:100%;background:transparent;border:0;resize:none;color:var(--text);font-family:var(--body);font-size:14px;min-height:32px;outline:none}
+  .addbox textarea::placeholder{color:var(--ash-dim)}
+  .addbox .arow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px}
+  .addbox .hint{font-family:var(--mono);font-size:10px;color:var(--ash-dim)}
+  .btn-fuel{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--ember);color:#1a120a;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}
+  .btn-fuel:hover{background:var(--flame-tip)}
+  .btn-ghost{font-family:var(--mono);font-size:11px;background:transparent;color:var(--ash-dim);border:0;cursor:pointer;padding:6px 4px}.btn-ghost:hover{color:var(--ash)}
+  .grave{margin-top:32px}.grave .feedhead h2{color:var(--ash-dim)}
+  .grave-list{display:flex;flex-direction:column;gap:6px}
+  .ashrow{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;opacity:.72}
+  .ashrow .ash-dot{width:8px;height:8px;border-radius:50%;background:var(--cold);flex:none}
+  .ashrow .ash-text{font-size:13px;color:var(--ash);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ashrow .ash-meta{font-family:var(--mono);font-size:10px;color:var(--ash-dim);flex:none}
+  .grave-empty{font-family:var(--mono);font-size:11px;color:var(--ash-dim);padding:4px 2px}
+  .spark-particle{position:absolute;width:5px;height:5px;border-radius:50%;pointer-events:none;z-index:6}
+  .footnote{margin-top:40px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--ash-dim);letter-spacing:.06em;line-height:1.8}
+  @media (max-width:520px){.statgrid{grid-template-columns:1fr}.logo{font-size:25px}.vitals{width:100%;justify-content:flex-start;margin-top:4px}}
+  @media (prefers-reduced-motion:reduce){.post.crit,.post.ascending{animation:none}.floater,.ascend-banner,.grade-badge.stamp,.shake{animation-duration:.01s}*{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div class="brand"><div class="logo">repost<span class="dot">.</span></div><div class="tag">keep&nbsp;it&nbsp;lit</div></div>
+      <div class="vitals">
+        <span class="vital">saves <b id="v-saves">0</b></span>
+        <span class="vital spark">clutch <b class="spark" id="v-clutch">0</b></span>
+        <span class="vital asc">ascensions <b class="asc" id="v-asc">0</b></span>
+        <span class="vital kill">kills <b class="kill" id="v-kill">0</b></span>
+        <span class="vital" title="" id="v-titles-wrap">titles <b style="color:var(--war)" id="v-titles">0</b></span>
+      </div>
+    </div>
+    <div class="emberbar" title="Your ember — spent on every action so spam is self-limiting. Regenerates over time, and contributing to high-standing posts refunds more than it costs.">
+      <span class="lbl">your ember</span>
+      <div class="track"><div class="fill" id="ember-fill"></div></div>
+      <span class="num" id="ember-num"></span>
+    </div>
+    <div class="controls">
+      <span class="ctl-label">feed</span>
+      <div class="seg" id="sort" role="group" aria-label="feed sort" title="How the feed is ordered">
+        <button data-sort="dying" aria-pressed="true" title="Closest to death first — the rescue feed">dying</button>
+        <button data-sort="hot" aria-pressed="false" title="Most distinct supporters first">hot</button>
+        <button data-sort="new" aria-pressed="false" title="Newest posts first">new</button>
+        <button data-sort="grade" aria-pressed="false" title="Highest grade / standing first">grade</button>
+      </div>
+      <button class="toggle" id="reshares" aria-pressed="true" title="Surface additions (reposts that added content) as their own feed entries. Bare reposts stay as a count on the original."><span class="led" style="background:var(--spark);box-shadow:0 0 8px var(--spark)"></span> 💬 additions in feed</button>
+    </div>
+    <div class="controls simbar" title="These exist only to drive and observe the mockup — none of this ships in a real app">
+      <span class="sim-tag">⚙ sim-only · strip for production</span>
+      <span class="ctl-label" style="margin-left:2px">pace</span>
+      <div class="seg sim-only" id="speed" role="group" title="Accelerated clock — compresses time so you can watch decay. A real app runs in real time.">
+        <button data-speed="10" aria-pressed="false" title="1 sec ≈ 10 min">slow</button>
+        <button data-speed="60" aria-pressed="true" title="1 sec ≈ 1 hr (24h post dies in ~24s)">normal</button>
+        <button data-speed="240" aria-pressed="false" title="1 sec ≈ 4 hr">fast</button>
+      </div>
+      <span class="ctl-label" style="margin-left:2px">adv sort</span>
+      <div class="seg sim-only" id="advsort" role="group" title="Experimental orderings for inspecting the model">
+        <button data-adv="off" aria-pressed="true" title="Use the product feed sort">off</button>
+        <button data-adv="standing" aria-pressed="false" title="Highest standing (grade + party lift) first">standing</button>
+        <button data-adv="branches" aria-pressed="false" title="Most living branches first">branches</button>
+        <button data-adv="velocity" aria-pressed="false" title="Fastest recent distinct-supporter velocity first">velocity</button>
+        <button data-adv="ignition" aria-pressed="false" title="Strongest active ignition bonus first">ignition</button>
+        <button data-adv="oldest" aria-pressed="false" title="Longest-lived first">oldest</button>
+      </div>
+      <button class="toggle sim-only" id="entropy" aria-pressed="true" title="RNG: random ember storms briefly accelerate a post's decay">⟡ ember storms</button>
+      <button class="toggle sim-only" id="viral" aria-pressed="false" title="Crank simulated crowd activity: popular posts pull crowds, branches deepen"><span class="led"></span> viral sim</button>
+      <button class="toggle sim-only" id="spawn-viral" style="color:var(--flame-tip);border-color:rgba(255,210,122,.35)" title="Drop in a pre-populated already-popular post (lots of supporters + a branch tree)">🔥 + viral post</button>
+      <button class="toggle sim-only" id="analytics-btn" style="color:var(--spark)" title="Compute lifespan and contribution analytics over every post this session">📊 analytics</button>
+      <button class="toggle sim-only" id="growth-spike" style="color:var(--ember)" title="Simulate a sudden surge of users/engagement so you can watch the regime harden — and watch the slew cap absorb it instead of tanking the feed">📈 growth spike</button>
+      <span class="sim-tag" id="regime-readout" style="color:var(--flame-tip);align-self:center"></span>
+    </div>
+    <div class="composer">
+      <textarea id="compose" rows="1" placeholder="what's worth keeping alive?" maxlength="280"></textarea>
+      <div class="row">
+        <div class="ttl"><span class="lbl">burns for</span>
+          <div class="seg" id="ttl" role="group">
+            <button data-ttl="60" aria-pressed="false">1h</button>
+            <button data-ttl="360" aria-pressed="true">6h</button>
+            <button data-ttl="1440" aria-pressed="false">24h</button>
+          </div>
+          <span class="ttlnote" title="A shorter burn gives a bigger early ignition bonus (more potential per repost right after posting) — but far less time to catch on. High conviction, high variance.">shorter = riskier · bigger early ignition</span>
+        </div>
+        <button class="btn-primary" id="post-btn">Light it</button>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+  </header>
+  <div class="feedhead"><h2 id="feed-label">Dying first</h2><div class="rule"></div><span class="count"><span id="alive-count">0</span> alive</span></div>
+  <button id="reorder-pill" style="display:none;width:100%;margin:0 0 12px;font-family:var(--mono);font-size:11px;background:var(--surface-2);color:var(--spark);border:1px solid rgba(159,216,230,.3);border-radius:10px;padding:9px;cursor:pointer">↻ feed reordered — tap to update</button>
+  <div id="feed"></div>
+  <div class="panel" id="analytics-panel"></div>
+  <div class="grave"><div class="feedhead"><h2>Ash</h2><div class="rule"></div><span class="count"><span id="dead-count">0</span> gone cold</span></div>
+    <div class="grave-list" id="graveyard"><div class="grave-empty">Nothing's died yet. Give it a minute.</div></div></div>
+  <div class="footnote">local mockup · accelerated clock · no data leaves this tab<br>
+    distinct supporters drive the falloff · branches feed the trunk · the open lets posts clash</div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+const SPARK="#9FD8E6";
+const palette=[["#F2A33C","#16120c"],["#E8782E","#16120c"],["#E0532B","#fff"],["#D8A14B","#16120c"],["#C76B3C","#fff"],["#EBBA5E","#16120c"],["#B5572E","#fff"],["#F0C674","#16120c"]];
+const GRADES=[
+  {name:"Spark",color:"#8A8174",extra:720,nhalf:6,surge:4},
+  {name:"Ember",color:"#F2A33C",extra:2880,nhalf:12,surge:5},
+  {name:"Flame",color:"#E8782E",extra:8640,nhalf:24,surge:7},
+  {name:"Blaze",color:"#E0532B",extra:25920,nhalf:48,surge:9},
+  {name:"Wildfire",color:"#FF5E3A",extra:77760,nhalf:96,surge:12},
+  {name:"Inferno",color:"#9FD8E6",extra:233280,nhalf:192,surge:Infinity},
+];
+const MAXG=GRADES.length-1;
+const NODE_MAXG=2;            // branches can grow, but only up to Flame — they stay a "small subset"
+const LIFT_FACTOR=0.22, LIFT_CAP=1.5;
+const TRAITS={
+  warforged:{label:"war-forged",path:"clutch"},
+  deepburn:{label:"deep-burning",path:"endurance"},
+  anchor:{label:"anchoring",path:"canon"},
+  radiant:{label:"radiant",path:"reach"},
+  veteran:{label:"veteran",path:"conquest"},
+};
+const SURGE_WINDOW=4500, CRIT=0.12;
+const EMBER_MAX=100, EMBER_REGEN=7;            // per real second
+const COST={repost:8,content:14,sub:6,challenge:20,clash:10};
+const YIELD_BASE=4, TRIB_BASE=2;               // contributing pays (carried-up); originating drips tribute
+const CHANNEL=0.45;                            // fraction of a branch repost that feeds the root
+const IGNITION=0.6, TTL_MAX=1440;              // confident (short-TTL) posts get a bigger early bonus that fades
+// app-level density regime: the whole hearth lives or dies on collective tending, the way a post does
+const EPOCHS=[{name:"First Flame",buf:0.70},{name:"Kindling Age",buf:0.55},{name:"Hearthward",buf:0.40},{name:"The Spread",buf:0.25},{name:"Inferno Age",buf:0.10}];
+const SLEW=0.25;                               // max change in a post's effective decay rate per real second (the cascade governor)
+let appDensity=0.04, appMaturity=0, appDecayScale=0.55, appCeilingScale=0.62, saveEvents=[];
+const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+
+const bots=[{h:"emberwake"},{h:"static_jane"},{h:"old_man_bith"},{h:"nullroot"},{h:"halfdraft"},{h:"kindling_kid"},{h:"the_barrow"},{h:"slowloris"},{h:"poe_andy"},{h:"finch"},{h:"void_garden"},{h:"glasswing"},{h:"ashbringer"},{h:"deepcut"}];
+const ME={h:"you"};
+// large handle pool so distinct-supporter counts (which drive everything) can climb into the hundreds
+const HANDLE_POOL=(()=>{const a=["ash","ember","void","null","barrow","kindle","static","glass","grim","pyre","cinder","flint","wisp","char","soot","drake","rune","quill","moth","tide","fen","bryn","corv","vale","mire","thorn","gale","slate","onyx","verge","hollow","brand","lumen","scorch"];const b=["wake","root","fall","born","song","mark","seer","ward","kin","drift","light","hawk","fox","wolf","reed","byte","loop","node","forge","crow","bloom","spark","run","cast","line","step","gate","well","hold","vane","quay","ridge"];const out=[];for(let i=0;i<300;i++)out.push(a[i%a.length]+"_"+b[(i*7)%b.length]+(i>110?String(i%47):""));return out;})();
+let handleIdx=0;
+function freshHandle(){handleIdx=(handleIdx+1+((Math.random()*3)|0))%HANDLE_POOL.length;return HANDLE_POOL[handleIdx];}
+const VIRAL_TEXTS=["this is the one. screenshotting before it's gone.","ok this broke containment. everyone's reposting it.","i've watched this almost die four times and the saves keep coming. legendary post.","whoever made this, you cooked. the whole feed is holding it up.","this is what the app was built for. look at the tree on it.","day 6 alive. this thing refuses to die and i'm here for it."];
+function crowdRepost(e,added){
+  if(e.dead)return;
+  const who = Math.random()<0.72 ? freshHandle() : HANDLE_POOL[(Math.random()*HANDLE_POOL.length)|0];
+  if(who===e.author)return;
+  const before=e.grade;
+  const r=repost(e, who, added?BOT_ADDS[(Math.random()*BOT_ADDS.length)|0]:null);
+  if(r&&e.kind==="root"&&e.grade===before&&Math.random()<0.45) flash(e,fmtAdd(r.ext),"var(--flame-tip)");
+  if(r&&e.root.author===ME.h&&Math.random()<0.18){const trib=TRIB_BASE*(1+0.15*standing(e.root));me.ember=Math.min(EMBER_MAX,me.ember+trib);updateEmber();}
+}
+function spawnViral(){
+  const e=makeEmber("root",freshHandle(),VIRAL_TEXTS[(Math.random()*VIRAL_TEXTS.length)|0],1440,260,null);
+  for(let i=0;i<48;i++) repost(e, freshHandle(), Math.random()<0.28);   // ~48 mostly-distinct supporters, many branches
+  e.children.slice(0,8).forEach(b=>{const n=2+((Math.random()*5)|0);for(let j=0;j<n;j++)repost(b,freshHandle(),Math.random()<0.3); // branches with their own supporters + nesting
+    if(Math.random()<0.5&&b.children[0]){const gb=b.children[0];const m=1+((Math.random()*3)|0);for(let k=0;k<m;k++)repost(gb,freshHandle(),Math.random()<0.3);}});
+  e.grade=2; e.peakGrade=2; e.traits.add("radiant"); e.traits.add("anchor");   // reads as an established, storied post
+  e.expires=simNow+reachableAge(e)*0.85;
+  if(Math.random()<0.5)e.zone="open";
+  roots.push(e); if(!viral){viral=true;const v=document.getElementById("viral");if(v)v.setAttribute("aria-pressed",true);}
+  applyOrder(true);
+  setTimeout(()=>e.el&&e.el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"}),140);
+}
+const seedPosts=[
+  {a:"emberwake",t:"posting this knowing it'll be gone by morning unless one of you cares enough. that's the whole point.",ttl:360,age:300},
+  {a:"static_jane",t:"unpopular take: the best part of this app is watching something good almost die and then NOT saving it. some posts earn their ending.",ttl:1440,age:90,open:true},
+  {a:"old_man_bith",t:"rolled a nat 20 to talk a dragon out of eating the party. if this hits a surge before it dies i'm framing the breakthrough.",ttl:360,age:332},
+  {a:"nullroot",t:"the clock in the corner is the only honest feature in any social app i've ever used",ttl:60,age:49},
+  {a:"finch",t:"caught a 19in cutthroat on a size 18 elk hair caddis this morning. released him. some things you keep alive on purpose.",ttl:1440,age:40},
+  {a:"the_barrow",t:"took this one into the open. come at it. i've got veterans behind me and i'm not losing this front.",ttl:1440,age:120,open:true},
+  {a:"void_garden",t:"a feed sorted by what's dying is just a museum of things people almost forgot to love",ttl:360,age:120},
+  {a:"slowloris",t:"reminder that you don't have to save everything. let the cold ones go cold. not everything deserves to ascend.",ttl:60,age:31},
+];
+
+let allEmbers=[], roots=[], nextId=1;
+let pace=60, sortMode="dying", entropyOn=true, composeTTL=360, viral=false, treeSort="dying";
+let showReshares=true, advSort="off", feedBranches=[];
+const records=[]; let sproutSuccess=0;
+const reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+const me={saves:0,clutch:0,asc:0,kills:0,ember:EMBER_MAX,titles:new Map()};
+let lastReal=performance.now(), simNow=0;
+let clashes=[];
+
+const initials=h=>h.replace(/[^a-z0-9]/gi,"").slice(0,2).toUpperCase()||"??";
+const colorFor=h=>{let s=0;for(const c of h)s+=c.charCodeAt(0);return palette[s%palette.length];};
+const lerp=(a,b,t)=>a+(b-a)*t;
+const rgbStr=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+function emberColor(f){const st=[[1,[255,210,122]],[.65,[242,163,60]],[.35,[232,120,46]],[.15,[224,83,43]],[0,[122,46,24]]];f=Math.max(0,Math.min(1,f));for(let i=0;i<st.length-1;i++){const[hi,chi]=st[i],[lo,clo]=st[i+1];if(f<=hi&&f>=lo){const t=(f-lo)/(hi-lo);return[lerp(clo[0],chi[0],t),lerp(clo[1],chi[1],t),lerp(clo[2],chi[2],t)];}}return[122,46,24];}
+function fmtClock(m){if(m<=0)return"0:00";const h=Math.floor(m/60),mm=Math.floor(m%60),s=Math.floor((m*60)%60);if(h>0)return`${h}h ${String(mm).padStart(2,"0")}m`;if(mm>0)return`${mm}m ${String(s).padStart(2,"0")}s`;return`${s}s`;}
+function fmtAdd(m){return m>=60?`+${(m/60).toFixed(1)}h`:`+${Math.round(m)}m`;}
+function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+
+/* ---------- ember model (roots and nodes share this) ---------- */
+function makeEmber(kind,author,text,ttl,age,parent){
+  const created=simNow-(age||0);
+  const e={id:nextId++,kind,author,text,ttl,created,expires:created+ttl,
+    grade:0,peakGrade:0,traits:new Set(),
+    contributors:new Map(),reposts:0,firstReposter:null,closestFrac:1,closestSaver:null,
+    children:[],parent:parent||null,root:null,nodeCount:0,
+    repostTs:[],recent:[],wentCritical:false,ascCooldown:0,lastDistinctAt:simNow,
+    zone:"hearth",clash:null,opponent:null,shield:0,killmails:[],
+    rootless:false,sprouting:false,sproutEnd:0,sproutBase:0,btitles:new Set(),
+    bornDecayScale:appDecayScale,bornEpoch:Math.round(appMaturity),effDecay:appDecayScale,
+    storm:0,dead:false,el:null,drawerOpen:false};
+  e.root = kind==="root" ? e : parent.root;
+  allEmbers.push(e);
+  return e;
+}
+const distinct=e=>e.contributors.size;
+function reachableAge(e){
+  const d=distinct(e);
+  if(e.kind==="node") return e.ttl + (e.ttl*1.2)*d/(d+4);
+  const g=GRADES[e.grade]; return e.ttl + g.extra*appCeilingScale*d/(d+g.nhalf);
+}
+function wallTime(e){return e.kind==="node" ? e.ttl*2.2 : e.ttl+GRADES[e.grade].extra*appCeilingScale;}
+function chunk(e){return (e.ttl*0.6)/Math.log(distinct(e)+2);}
+// confidence bonus: shorter chosen burn -> bigger early multiplier on each repost, fading over the opening window
+function ignitionMul(e){
+  const conf=1-Math.min(1,e.ttl/TTL_MAX);
+  const fade=Math.max(0,1-(simNow-e.created)/e.ttl);
+  return 1+IGNITION*conf*fade;
+}
+const fracNat=e=>Math.max(0,(e.expires-simNow)/e.ttl);     // life vs natural window
+const fracWall=e=>Math.max(0,Math.min(1,(e.expires-simNow)/wallTime(e)));
+// standing = own grade + bounded, diminishing lift from the party (branches). individualization: each keeps its own grade.
+function standing(e){
+  const kids=e.children.filter(c=>!c.dead).map(c=>({s:standing(c),wt:c.btitles.has("keystone")?2:1,well:c.btitles.has("wellspring")})).sort((a,b)=>b.s*b.wt-a.s*a.wt);
+  let lift=0,w=0.6,flat=0;
+  for(const k of kids){ lift+=k.s*k.wt*LIFT_FACTOR*w; w*=0.5; if(k.well)flat+=0.12; }  // keystone counts double; wellspring adds a flat bump to the trunk
+  return e.grade+Math.min(LIFT_CAP,lift+flat);
+}
+const tier=e=>Math.round(standing(e));                       // effective tier used for clash weight-class
+function liftOf(e){return standing(e)-e.grade;}
+// branch titles: an addition that proves itself earns a title that buffs it AND the post above it
+const BRANCH_TITLES={
+  keystone:{label:"Keystone",desc:"5+ distinct supporters — channels far more life up and counts double toward the trunk's standing"},
+  wellspring:{label:"Wellspring",desc:"grew its own sub-branches — adds a flat standing bump to the trunk"},
+  lodestar:{label:"Lodestar",desc:"clutch-saved from the brink — decays slower and channels a little extra"},
+};
+function awardBranchTitle(b,key){
+  if(b.btitles.has(key))return;
+  b.btitles.add(key);
+  if(b.el)flash(b,`✦ ${BRANCH_TITLES[key].label}`,"var(--war)");
+  if(b.author===ME.h)showToast(`✦ your addition earned <b>${BRANCH_TITLES[key].label}</b><br><span style="opacity:.7;font-size:11px">${BRANCH_TITLES[key].desc} — it strengthens the post above it too</span>`);
+}
+function checkBranchTitles(b,f){
+  if(distinct(b)>=5) awardBranchTitle(b,"keystone");
+  if(b.children.some(c=>!c.dead)) awardBranchTitle(b,"wellspring");
+  if(f<0.15) awardBranchTitle(b,"lodestar");
+}
+// epoch buffer: a post born in a gentler era eases toward the current regime instead of snapping to it (cascade governor), capped <1 so nothing is ever immune
+function epochBuffer(e){ return Math.min(0.7,(Math.round(appMaturity)-e.bornEpoch)*0.25); }
+// decay target: the buffered app regime, plus local modifiers. The per-post slew toward this is applied in loop().
+function decayTarget(e){
+  const buf=epochBuffer(e);
+  let r = appDecayScale*(1-buf) + e.bornDecayScale*buf;    // sheltered toward birth rules
+  if(e.storm>0) r+=0.8;                                    // ember storm
+  if(e.sprouting||e.rootless) r+=0.4;                      // orphaned branch bleeds faster
+  if(e.traits.has("deepburn")) r-=0.2;                     // deep-burning slows decay
+  if(e.btitles.has("lodestar")) r-=0.15;                   // lodestar branch resists decay
+  if(e.clash&&e.clash.dilated) r-=0.55;                    // clash time dilation
+  return Math.max(0.1,r);
+}
+// the hearth's own metabolism, driven by engagement DENSITY (saves per active post), not raw headcount
+function updateRegime(){
+  const now=performance.now();
+  saveEvents=saveEvents.filter(t=>now-t<8000);
+  const active=Math.max(1,roots.filter(e=>!e.dead).length);
+  const dInstant=(saveEvents.length/8)/active;              // saves/sec per active post
+  appDensity += (dInstant-appDensity)*0.06;                 // slow trailing average — never snaps
+  const d=appDensity;
+  appDecayScale = clamp(0.5 + d*5.5, 0.5, 1.7);             // sparse: gentle. dense: brutal.
+  appCeilingScale= clamp(0.6 + d*4.5, 0.6, 1.5);            // sparse: low ceilings. dense: room to grow.
+  const matTarget=clamp(d*22,0,EPOCHS.length-1);
+  if(matTarget>appMaturity) appMaturity += (matTarget-appMaturity)*0.04;  // maturity ratchets up only (the hearth grows)
+  updateRegimeUI();
+}
+
+/* ---------- the one repost operation ---------- */
+function registerSupporter(e,who){
+  const had=e.contributors.has(who);
+  const k=(e.contributors.get(who)||0)+1;
+  e.contributors.set(who,k);
+  if(!had) e.lastDistinctAt=simNow;                     // a fresh face resets the starvation clock
+  e.recent.push({h:who,ts:performance.now()});
+  return k; // their personal count after this repost
+}
+function repost(e,who,added){
+  if(e.dead) return null;
+  const f=fracNat(e);
+  if(!e.firstReposter) e.firstReposter=who;
+  if(f<e.closestFrac){e.closestFrac=f;e.closestSaver=who;}
+  e.reposts++;
+  saveEvents.push(performance.now());                      // feeds the app-density regime
+  const k=registerSupporter(e,who);
+  const personal=Math.max(0.35, 1/Math.sqrt(k));         // returning supporters: diminishing, floored
+  const contentBonus=added?1.3:1.0;
+  const ext=chunk(e)*personal*contentBonus*ignitionMul(e);
+  const cap=e.created+reachableAge(e);
+  e.expires=Math.min(Math.max(e.expires,simNow)+ext, Math.max(cap, e.expires));   // never truncate grandfathered life
+  // added content -> a living sub-ember
+  let child=null;
+  if(added){
+    const subTtl=Math.max(20,e.ttl*0.35);
+    child=makeEmber("node",who,added,subTtl,0,e);
+    e.children.push(child); e.root.nodeCount++;
+  }
+  // a branch feeds the trunk
+  if(e.kind==="node"){
+    const root=e.root;
+    const upMul=(root.traits.has("anchor")?1.3:1.0)*(e.btitles.has("keystone")?1.4:1.0)*(e.btitles.has("lodestar")?1.1:1.0);
+    const up=ext*CHANNEL*upMul;
+    const rcap=root.created+reachableAge(root);
+    root.expires=Math.min(Math.max(root.expires,simNow)+up, Math.max(rcap, root.expires));
+    registerSupporter(root,who);                         // engaging a branch supports the trunk
+    checkBranchTitles(e,f);
+  }
+  // surge -> clutch ascension (roots and branches; branches cap lower)
+  const now=performance.now();
+  e.repostTs.push(now); e.repostTs=e.repostTs.filter(t=>now-t<=SURGE_WINDOW);
+  const gcap = e.kind==="node"?NODE_MAXG:MAXG;
+  if(e.grade<gcap && now>e.ascCooldown){
+    const baseSurge = e.kind==="node"?3:GRADES[e.grade].surge;
+    const need=baseSurge + (e.traits.has("warforged")?2:0) + (e.traits.has("anchor")?3:0);
+    if((fracNat(e)<CRIT||f<CRIT) && e.repostTs.length>=need) ascend(e,"clutch");
+  }
+  return {ext,f};
+}
+
+/* ---------- ascension paths ---------- */
+const PATH_TRAIT={clutch:"warforged",endurance:"deepburn",canon:"anchor",reach:"radiant",conquest:"veteran"};
+const PATH_LABEL={clutch:"clutch save",endurance:"endurance",canon:"canon",reach:"reach",conquest:"conquest"};
+function ascend(e,path){
+  const gcap=e.kind==="node"?NODE_MAXG:MAXG;
+  e.grade=Math.min(gcap,e.grade+1); e.peakGrade=Math.max(e.peakGrade,e.grade);
+  e.traits.add(PATH_TRAIT[path]); e.repostTs=[]; e.ascCooldown=performance.now()+6000;
+  e.expires=simNow + reachableAge(e)*0.8;                 // breakthrough heal into new headroom
+  me.asc++; updateVitals();
+  ascendFx(e,path);
+  if(e.author===ME.h){ if(e.grade>=2) awardTitle("Flamekeeper","an original of yours reached Flame"); if(e.grade>=4) awardTitle("Wildfire-Tender","an original of yours reached Wildfire"); if(e.grade>=MAXG) awardTitle("Inferno-Touched","an original of yours reached Inferno"); }
+  checkPlayerTitles();
+}
+function checkPaths(e){
+  if(e.kind!=="root"||e.dead||e.grade>=MAXG||performance.now()<e.ascCooldown) return;
+  const age=simNow-e.created, d=distinct(e);
+  // endurance: lived well past natural life, broad support, never went critical
+  if(!e.wentCritical && age>e.ttl*1.6 && d>=4 && !e.traits.has("deepburn")) return ascend(e,"endurance");
+  // canon: a wide, built-upon tree
+  if(e.root.nodeCount>=4 && !e.traits.has("anchor")) return ascend(e,"canon");
+  // reach: high distinct velocity (distinct supporters in the last few seconds)
+  const now=performance.now(); e.recent=e.recent.filter(r=>now-r.ts<=6000);
+  const recentDistinct=new Set(e.recent.map(r=>r.h)).size;
+  if(recentDistinct>=5 && !e.traits.has("radiant")) return ascend(e,"reach");
+}
+
+/* ---------- economy ---------- */
+function spend(c){ if(me.ember>=c){me.ember-=c; updateEmber(); return true;} return false; }
+function updateEmber(){const p=Math.max(0,Math.min(1,me.ember/EMBER_MAX));document.getElementById("ember-fill").style.width=(p*100)+"%";document.getElementById("ember-num").textContent=`${Math.floor(me.ember)} / ${EMBER_MAX}`;}
+function updateRegimeUI(){const r=document.getElementById("regime-readout");if(!r)return;const ep=EPOCHS[clamp(Math.round(appMaturity),0,EPOCHS.length-1)];r.textContent=`🔥 hearth: ${ep.name} · density ${appDensity.toFixed(3)} · decay ×${appDecayScale.toFixed(2)} · ceiling ×${appCeilingScale.toFixed(2)}`;}
+setInterval(()=>{me.ember=Math.min(EMBER_MAX,me.ember+EMBER_REGEN*0.25);updateEmber();},250);
+
+/* ---------- player + bot actions ---------- */
+function denied(el){if(!el)return;el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");}
+function youRepost(e,added,btn){
+  if(e.dead) return;
+  const cost = added ? (e.kind==="node"?COST.sub+4:COST.content) : (e.kind==="node"?COST.sub:COST.repost);
+  if(!spend(cost)){denied(btn||(e.el&&e.el));flash(e,"need ember","var(--ash)");return;}
+  const before=e.grade;
+  const r=repost(e,ME.h,added);
+  if(!r) return;
+  me.saves++;
+  const clutch=r.f<0.15; if(clutch){me.clutch++;checkPlayerTitles();}
+  if(e.kind==="root"&&e.grade===before){flash(e,(clutch?"⚡ clutch ":"")+fmtAdd(r.ext),clutch?SPARK:"var(--flame-tip)");if(clutch&&!reduce)burst(e,SPARK);}
+  // contributor economy: helping something with high standing pays you (the peon is carried); repeat help pays less (expected)
+  const host=e.root, kMe=e.contributors.get(ME.h)||1;
+  const yield_=YIELD_BASE*(1+0.22*standing(host))*Math.max(0.4,1/Math.sqrt(kMe));
+  me.ember=Math.min(EMBER_MAX,me.ember+yield_); updateEmber();
+  flash(e,`+${Math.round(yield_)}◆ carried`,"var(--ember)");
+  if(e.kind==="node") refreshTreeFor(e.root);
+  updateVitals();
+  if(e.root.drawerOpen) renderDrawer(e.root);
+}
+const BOT_ADDS=["this. exactly this.","saving this one.","came back for it.","not letting this die.","needed to hear this today.","keeping it lit.","↑ underrated take","passing the torch."];
+function botRepost(e,added){
+  if(e.dead) return;
+  const who=bots[Math.floor(Math.random()*bots.length)];
+  if(who.h===e.author && Math.random()<0.7) return;
+  const content = added ? BOT_ADDS[(Math.random()*BOT_ADDS.length)|0] : null;
+  const before=e.grade;
+  const r=repost(e,who.h,content);
+  if(r&&e.kind==="root"&&e.grade===before) flash(e,fmtAdd(r.ext),"var(--flame-tip)");
+  if(r&&e.root.author===ME.h){const trib=TRIB_BASE*(1+0.15*standing(e.root));me.ember=Math.min(EMBER_MAX,me.ember+trib);updateEmber();if(Math.random()<0.4)flash(e.root,`+${Math.round(trib)}◆ tribute`,"var(--war)");}
+}
+
+/* ---------- fx ---------- */
+function flash(e,txt,color){if(!e.el)return;const f=document.createElement("div");f.className="floater";f.textContent=txt;f.style.color=color;f.style.right=(30+Math.random()*120)+"px";f.style.top="38px";e.el.appendChild(f);setTimeout(()=>f.remove(),1100);}
+function burst(e,color){if(!e.el)return;for(let i=0;i<14;i++){const s=document.createElement("div");s.className="spark-particle";s.style.background=color;s.style.boxShadow=`0 0 8px ${color}`;s.style.left="50%";s.style.top="44px";e.el.appendChild(s);const a=Math.random()*Math.PI*2,d=30+Math.random()*60;s.animate([{transform:"translate(-50%,-50%) scale(1)",opacity:1},{transform:`translate(${Math.cos(a)*d-50}%,${Math.sin(a)*d*.6}px) scale(0)`,opacity:0}],{duration:560+Math.random()*260,easing:"cubic-bezier(.2,.6,.2,1)"});setTimeout(()=>s.remove(),900);}}
+function ascendFx(e,path){
+  if(!e.el)return; const g=GRADES[e.grade];
+  if(!reduce){e.el.classList.add("ascending");setTimeout(()=>e.el&&e.el.classList.remove("ascending"),900);burst(e,g.color);burst(e,"#fff");}
+  const b=document.createElement("div");b.className="ascend-banner";b.style.color=g.color;b.textContent=`⟡ ${PATH_LABEL[path].toUpperCase()} → ${g.name}`;e.el.appendChild(b);setTimeout(()=>b.remove(),1700);
+}
+
+/* ---------- clashes ---------- */
+function isFledgling(e){return (simNow-e.created) < e.ttl*0.25 || e.sprouting;}
+function eligibleTargets(e){return roots.filter(o=>o!==e&&!o.dead&&o.zone==="open"&&!o.clash&&!isFledgling(o)&&Math.abs(tier(o)-tier(e))<=1&&o.author!==e.author);}
+function startClash(a,b){
+  const c={a,b,pa:0,pb:0,dilated:false,lastActs:[],start:performance.now(),maxMs:70000};
+  a.clash=c;b.clash=c;a.opponent=b;b.opponent=a;a.shield=a.traits.has("veteran")?40:0;b.shield=b.traits.has("veteran")?40:0;
+  clashes.push(c);
+  flash(a,"⚔ FRONT OPEN","var(--dying)");flash(b,"⚔ FRONT OPEN","var(--dying)");
+  if(a.el)a.el.classList.add("clashing");if(b.el)b.el.classList.add("clashing");
+}
+function applyPressure(attacker){
+  const c=attacker.clash; if(!c)return;
+  const target=attacker.opponent;
+  // inverted stakes: lower standing hits harder, higher standing hits softer
+  const gd=tier(attacker)-tier(target);
+  const invert = gd<0?1.6 : gd>0?0.6 : 1.0;
+  let press = 0.16*target.ttl*invert;                    // base bite scaled to opponent's window
+  if(target.traits.has("warforged")) press*=0.7;          // combat resist
+  if(isFledgling(target)) press*=0.2;                     // new posts are shielded in a fight
+  if(target.shield>0){const absorb=Math.min(target.shield,press*0.5);target.shield-=absorb;press-=absorb;}
+  const floor=simNow+target.ttl*0.06;                     // a clash can grind to the edge but never deliver the kill
+  target.expires=Math.max(floor, target.expires-press);
+  c.lastActs.push(performance.now());
+}
+function tickClashes(dtSim){
+  const now=performance.now();
+  for(const c of clashes.slice()){
+    c.lastActs=c.lastActs.filter(t=>now-t<2500);
+    c.dilated = c.lastActs.length>=4;                     // heavy load -> time dilation (slows both sides via decayRate)
+    if(now-c.start>c.maxMs && !c.a.dead && !c.b.dead){    // timeout -> higher remaining wins
+      const loser = (c.a.expires-simNow) < (c.b.expires-simNow) ? c.a : c.b;
+      resolveClash(loser);
+    }
+  }
+}
+function resolveClash(loser){
+  const c=loser.clash; if(!c)return;
+  const winner = c.a===loser ? c.b : c.a;
+  clashes=clashes.filter(x=>x!==c);
+  [c.a,c.b].forEach(s=>{s.clash=null;s.opponent=null;s.shield=0;if(s.el)s.el.classList.remove("clashing");});
+  if(!winner.dead){
+    winner.expires=Math.min(winner.expires+reachableAge(winner)*0.3, winner.created+reachableAge(winner)); // consolidate
+    winner.killmails.push({foe:loser.author,grade:GRADES[loser.peakGrade].name,when:simNow});
+    if(winner.author===ME.h){me.kills++;updateVitals();checkPlayerTitles();}
+    if(winner.grade<MAXG) ascend(winner,"conquest"); else { winner.traits.add("veteran"); }
+    flash(winner,"⚔ FRONT WON","var(--war)");
+    if(winner.drawerOpen) renderDrawer(winner);
+  }
+}
+
+/* ---------- render ---------- */
+const feedEl=document.getElementById("feed"), graveEl=document.getElementById("graveyard");
+function gradeBadge(e){const g=GRADES[e.grade];const lift=liftOf(e);const extra=lift>=0.05?`<span style="opacity:.75;font-size:8px;margin-left:1px">+${lift.toFixed(1)}</span>`:"";return `<span class="grade-badge" style="color:${g.color};border-color:${g.color}55;background:${g.color}14" title="Grade ${g.name}${lift>=0.05?` · +${lift.toFixed(1)} party lift from branches → standing tier ${tier(e)}`:""}. Higher grade = a higher life ceiling and a tougher weight class."><span class="pip" style="background:${g.color};box-shadow:0 0 6px ${g.color}"></span>${g.name}${extra}</span>`;}
+const TRAIT_DESC={warforged:"war-forged — earned by a clutch brink-save. Resists clash pressure and is harder to crack.",deepburn:"deep-burning — earned by endurance. Decays slower and resists grade-slip.",anchor:"anchoring — earned by a wide built-upon tree. Harder to ascend against; branches feed it harder.",radiant:"radiant — earned by reach. Pulls extra ambient engagement.",veteran:"veteran — earned by winning a clash. Enters future fights with a shield."};
+function traitChips(e){return[...e.traits].map(t=>`<span class="trait-chip" title="${TRAIT_DESC[t]||TRAITS[t].path}">${TRAITS[t].label}</span>`).join("");}
+function epochChip(e){const ep=EPOCHS[clamp(e.bornEpoch,0,EPOCHS.length-1)];const buf=Math.min(0.7,(Math.round(appMaturity)-e.bornEpoch)*0.25);return `<span class="trait-chip" style="color:var(--war);border-color:rgba(205,182,255,.3)" title="Born in the ${ep.name} epoch${e.bornEpoch===0?' — a First Bearer of the Flame, the rarest founder mark':''}. ${buf>0.05?`Buffered ${Math.round(buf*100)}% toward its birth regime, so harshening eases in rather than snapping.`:'Born in the current era.'}">⟡ ${ep.name}</span>`;}
+
+function buildCard(e){
+  const[bg,fg]=colorFor(e.author);
+  const el=document.createElement("article"); el.className="post"; el.dataset.id=e.id;
+  el.innerHTML=`
+   <div class="phead">
+     <div class="avatar" style="background:${bg};color:${fg}">${initials(e.author)}</div>
+     <div class="who"><span class="name">@${e.author}</span><span class="meta">original</span></div>
+     <div class="badges js-badges">${gradeBadge(e)}${traitChips(e)}</div>
+   </div>
+   <div class="ptext">${esc(e.text)}</div>
+   <div class="lifeline-wrap"><div class="lifeline" title="Life remaining, scaled to this grade's hard ceiling (the wall at the right end)"><div class="track"><div class="fill js-fill"></div></div><div class="marker js-marker" title="Reachable now — the furthest reposts can push this post at its current supporter count. It creeps toward the wall as more distinct people join, but never past it."></div><div class="wall" title="The grade ceiling. Life can never cross this — the post will always eventually die. Ascending moves the wall outward."></div></div>
+     <div class="ll-caption"><span class="js-capL"></span><span class="js-capR"></span></div></div>
+   <div class="vrow"><span class="clock js-clock" title="Time left before this post burns down"></span><span class="sep">·</span><span class="js-reposts" title="Total reposts"></span><span class="dist js-dist" title="Distinct supporters — this drives the falloff, the reachable ceiling, and grade progress"></span><span class="js-save"></span><span class="tidi js-tidi"></span><span class="js-decay" title="Decay rate. 1.0× = time burns life one-for-one. Above 1 burns faster (ember storm), below 1 slower (deep-burning, lodestar, clash time-dilation)."></span><span class="js-ignite" style="color:var(--flame-tip)" title="Ignition bonus active — early reposts on this confident short-burn post buy extra life"></span></div>
+   <div class="clashrow js-clash"><span class="js-clash-label"></span><div class="pbar"><i class="js-clash-bar"></i></div></div>
+   <div class="pactions">
+     <button class="act fuel js-repost" title="Keep-alive vote. Extends the post a little (more if you're a fresh supporter), costs ${COST.repost} ember, refunds more on high-standing posts. Leaves no mark on the tree.">♻ repost <span class="cost">${COST.repost}◆</span></button>
+     <button class="act js-add" title="Repost AND add your take. Costs more, extends more, and grows a living branch — a sub-post with its own life that feeds life back up to this one.">＋ add <span class="cost">${COST.content}◆</span></button>
+     <button class="act zone js-zone" title="Hearth = safe, can't be challenged, slower grade. The open = can clash for faster grade, at the cost of faster death."></button>
+     <button class="act war js-challenge" style="display:none" title="Pick an eligible opponent in the open (within one tier of your standing) and start a clash.">⚔ challenge <span class="cost">${COST.challenge}◆</span></button>
+     <button class="act js-pin" title="Pin to the top of the feed while you work on it, regardless of its life or sort order.">⊚ pin</button>
+     <button class="act ml js-stats" aria-expanded="false" title="Open the full breakdown: grade, standing, supporters, history, and the contribution tree."><span class="stats-caret">›</span> stats</button>
+   </div>
+   <div class="drawer js-drawer"></div>`;
+  el.querySelector(".js-repost").onclick=ev=>youRepost(e,null,ev.currentTarget);
+  el.querySelector(".js-add").onclick=()=>openAddBox(e,e,el.querySelector(".js-drawer"),true);
+  el.querySelector(".js-zone").onclick=()=>{if(e.zone!=="open"&&isFledgling(e)){flash(e,"too young for the open","var(--ash)");return;}e.zone=e.zone==="open"?"hearth":"open";updateZoneUI(e);};
+  el.querySelector(".js-challenge").onclick=()=>{const t=eligibleTargets(e);if(!t.length){flash(e,"no targets in the open","var(--ash)");return;}if(!spend(COST.challenge)){denied(el);flash(e,"need ember","var(--ash)");return;}const opp=t.sort((x,y)=>Math.abs(x.grade-e.grade)-Math.abs(y.grade-e.grade))[0];startClash(e,opp);};
+  el.querySelector(".js-pin").onclick=ev=>{if(pinned.has(e.id)){pinned.delete(e.id);ev.currentTarget.classList.remove("war");ev.currentTarget.textContent="⊚ pin";}else{pinned.add(e.id);ev.currentTarget.classList.add("war");ev.currentTarget.innerHTML="⊚ pinned";}applyOrder(true);};
+  el.querySelector(".js-stats").onclick=ev=>{e.drawerOpen=!e.drawerOpen;ev.currentTarget.setAttribute("aria-expanded",e.drawerOpen);const d=el.querySelector(".js-drawer");d.classList.toggle("open",e.drawerOpen);if(e.drawerOpen)renderDrawer(e);};
+  e.el=el; updateZoneUI(e);
+  return el;
+}
+function updateZoneUI(e){
+  if(!e.el)return;
+  const z=e.el.querySelector(".js-zone"), ch=e.el.querySelector(".js-challenge");
+  z.textContent = e.zone==="open" ? "◇ in the open" : "⌂ in the hearth";
+  e.el.classList.toggle("open-zone",e.zone==="open");
+  ch.style.display = (e.zone==="open"&&!e.clash) ? "" : "none";
+}
+function buildReshareCard(b){
+  const root=b.root, [bg,fg]=colorFor(b.author);
+  const el=document.createElement("article"); el.className="post reshare"; el.dataset.id=b.id; el.dataset.kind="reshare";
+  el.innerHTML=`
+   <div class="reshare-head"><div class="avatar" style="width:24px;height:24px;font-size:11px;background:${bg};color:${fg}">${initials(b.author)}</div> 💬 <b>@${b.author}</b> added <span class="from">· to @${root.author}'s post</span><span class="js-btitles" style="margin-left:auto"></span></div>
+   <div class="ptext small">${esc(b.text)}</div>
+   <div class="lifeline-wrap"><div class="lifeline" title="This addition has its own life — keeping it alive feeds the original"><div class="track"><div class="fill js-fill"></div></div></div></div>
+   <div class="vrow"><span class="clock js-clock"></span><span class="sep">·</span><span class="js-dist"></span><span style="opacity:.6;color:var(--spark-dim)">· feeds @${root.author} ↑</span></div>
+   <div class="pactions">
+     <button class="act fuel js-keep" title="Keep this addition alive — channels life up to the original (${COST.sub}◆)">♻ keep <span class="cost">${COST.sub}◆</span></button>
+     <button class="act js-addr" title="Add onto this addition right here — continues the branch without hunting down the original">＋ build on it</button>
+     <button class="act js-orig" title="Jump to the canonical original post">↳ original</button>
+   </div>`;
+  el.querySelector(".js-keep").onclick=ev=>youRepost(b,null,ev.currentTarget);
+  el.querySelector(".js-addr").onclick=()=>openAddBox(b,b,el,false);
+  el.querySelector(".js-orig").onclick=()=>{ if(root.dead){flash(b,"the original is gone","var(--ash)");return;} if(root.el){root.el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"}); if(!root.drawerOpen){const s=root.el.querySelector(".js-stats");if(s)s.click();}} };
+  b.el=el; return el;
+}
+
+function renderDrawer(e){
+  const d=e.el&&e.el.querySelector(".js-drawer"); if(!d)return;
+  const alive=Math.max(0,simNow-e.created), firstR=e.firstReposter?("@"+e.firstReposter):"—";
+  const saver=e.closestSaver?`@${e.closestSaver} at ${Math.round(e.closestFrac*100)}%`:"never near death";
+  const g=GRADES[e.grade], nextNeed=e.grade<MAXG?`brink-surge ${GRADES[e.grade].surge+(e.traits.has("warforged")?2:0)+(e.traits.has("anchor")?3:0)} · or endurance / canon / reach / conquest`:"maxed — it will burn down";
+  const km=e.killmails.length?`<div class="killmail">⚔ spoils: ${e.killmails.map(k=>`${k.foe} (${k.grade})`).join(", ")}</div>`:"";
+  d.innerHTML=`<div class="statgrid">
+    <div class="stat"><span class="k" title="The grade this post earned on its own, plus any bounded 'party' lift from its branches. Standing sets its weight class in clashes.">grade · standing</span><span class="v" style="color:${g.color}">${g.name}${liftOf(e)>=0.05?` ·party +${liftOf(e).toFixed(1)} (tier ${tier(e)})`:""}${e.peakGrade>e.grade?` · peaked ${GRADES[e.peakGrade].name}`:""}</span></div>
+    <div class="stat"><span class="k" title="How many DIFFERENT people have kept it alive. Repeat support from the same person counts for less; only fresh faces raise the ceiling.">distinct supporters</span><span class="v flame">${distinct(e)}</span></div>
+    <div class="stat"><span class="k" title="Time since it was posted">alive for</span><span class="v">${fmtClock(alive)}</span></div>
+    <div class="stat"><span class="k" title="Every repost, including repeats">total reposts</span><span class="v">${e.reposts}</span></div>
+    <div class="stat"><span class="k" title="The first person to repost it after it was created">first to save</span><span class="v">${firstR}</span></div>
+    <div class="stat"><span class="k" title="The lowest life this post ever fell to before someone saved it, and who made that clutch catch">closest save</span><span class="v spark">${saver}</span></div>
+    <div class="stat"><span class="k" title="Living branches still channeling life up, out of all branches ever grown (dormant ones keep their record)">living branches</span><span class="v">${e.children.filter(c=>!c.dead).length} / ${e.children.length}</span></div>
+    <div class="stat"><span class="k" title="The paths to the next grade: a brink-surge while dying, or one of the slower routes (endurance, canon, reach, conquest)">to ascend</span><span class="v">${nextNeed}</span></div>
+  </div>${km}<div class="tree-h">contribution tree — branches feed the trunk<span class="treesort" id="treesort-${e.id}">${["dying","supporters","grade","new"].map(s=>`<button data-ts="${s}" aria-pressed="${treeSort===s}" title="Sort branches by ${s}">${s}</button>`).join("")}</span></div><div class="tree js-tree"></div>`;
+  const ts=d.querySelector(`#treesort-${e.id}`);
+  if(ts) ts.querySelectorAll("button").forEach(b=>b.onclick=()=>{treeSort=b.dataset.ts;renderDrawer(e);});
+  renderTree(e,d.querySelector(".js-tree"));
+}
+function refreshTreeFor(root){if(root.drawerOpen&&root.el){const t=root.el.querySelector(".js-tree");if(t)renderTree(root,t);}}
+function sortBranches(arr){
+  const a=arr.slice();
+  if(treeSort==="dying")a.sort((x,y)=>x.expires-y.expires);
+  else if(treeSort==="supporters")a.sort((x,y)=>distinct(y)-distinct(x));
+  else if(treeSort==="grade")a.sort((x,y)=>y.grade-x.grade||distinct(y)-distinct(x));
+  else a.sort((x,y)=>y.id-x.id); // newest
+  return a;
+}
+function renderTree(root,container){
+  container.innerHTML="";
+  const kids=root.children;
+  if(!kids.length){container.innerHTML='<div class="empty-tree">No additions yet. A bare repost feeds the fire but leaves no mark — add something to grow a living branch.</div>';return;}
+  const nodeEl=e=>{
+    const[bg,fg]=colorFor(e.author);
+    const w=document.createElement("div"); w.className="node"+(e.dead?" dormant":"");
+    const left=e.expires-simNow, wf=fracWall(e), col=rgbStr(emberColor(Math.min(1,Math.max(0,left/e.ttl))));
+    w.innerHTML=`<div class="nline"><div class="ndot" style="background:${bg};color:${fg}">${initials(e.author)}</div>
+      <div class="nbody"><div class="nname"><b>@${e.author}</b> · ${distinct(e)} supporters${e.grade>0?` · <span style="color:${GRADES[e.grade].color};font-weight:700" title="This branch grew its own grade — it lifts the trunk's standing">${GRADES[e.grade].name}</span>`:""}${[...e.btitles].map(t=>`<span class="titlechip" title="${BRANCH_TITLES[t].desc}"> ✦${BRANCH_TITLES[t].label}</span>`).join("")}</div>
+      <div class="ncontent">${esc(e.text)}</div>
+      <div class="nlife" title="This branch's own life — it decays on the same rules at smaller scale"><i style="width:${(wf*100).toFixed(1)}%;background:${col};box-shadow:0 0 6px ${col}"></i></div>
+      <div class="nrow">${e.dead?'<span class="ndead" title="This branch ran out of life. Its text stays as part of the record but it no longer feeds the trunk.">▪ dormant · record kept</span>':`<span style="color:${col}">${fmtClock(left)} left</span>
+        <button class="nrepost" title="Keep this branch alive — costs ${COST.sub} ember and channels life up to the trunk">♻ keep <span style="opacity:.6">${COST.sub}◆</span></button>
+        <button class="nadd" title="Add a sub-branch under this one — the tree can nest, and depth proves a contribution's value">↳ build on this</button>
+        <span style="opacity:.6">feeds the trunk ↑</span>`}</div></div></div>`;
+    if(!e.dead){
+      w.querySelector(".nrepost").onclick=ev=>youRepost(e,null,ev.currentTarget);
+      w.querySelector(".nadd").onclick=()=>openAddBox(e,e,w,false);
+    }
+    if(e.children.length){const ch=document.createElement("div");ch.className="children";sortBranches(e.children).forEach(k=>ch.appendChild(nodeEl(k)));w.appendChild(ch);}
+    return w;
+  };
+  sortBranches(kids).forEach(k=>container.appendChild(nodeEl(k)));
+}
+
+let activeAdd=null;
+function openAddBox(target,mountTarget,mount,isRootDrawer){
+  if(activeAdd)activeAdd.remove();
+  if(isRootDrawer){target.drawerOpen=true;target.el.querySelector(".js-stats").setAttribute("aria-expanded",true);mount.classList.add("open");renderDrawer(target);}
+  const box=document.createElement("div");box.className="addbox";
+  box.innerHTML=`<textarea placeholder="${target.kind==="node"?"build on this branch…":"add your take — grows a living branch under this post"}" maxlength="240"></textarea>
+   <div class="arow"><span class="hint">costs ${target.kind==="node"?COST.sub+4:COST.content}◆ · adds more than a bare repost · leaves a branch</span>
+   <span><button class="btn-ghost js-cancel">cancel</button> <button class="btn-fuel js-send">repost &amp; add</button></span></div>`;
+  const ta=box.querySelector("textarea");
+  box.querySelector(".js-cancel").onclick=()=>{box.remove();activeAdd=null;};
+  box.querySelector(".js-send").onclick=ev=>{const v=ta.value.trim()||"(+)";youRepost(target,v,ev.currentTarget);box.remove();activeAdd=null;const root=target.root;if(root.drawerOpen)renderDrawer(root);};
+  if(isRootDrawer){const t=mount.querySelector(".js-tree");mount.insertBefore(box,t);}else mount.appendChild(box);
+  activeAdd=box; ta.focus();
+}
+
+function recentDistinct(e){const now=performance.now();return new Set(e.recent.filter(r=>now-r.ts<=6000).map(r=>r.h)).size;}
+function sortItems(a){
+  if(advSort!=="off"){
+    if(advSort==="standing")a.sort((x,y)=>standing(y)-standing(x));
+    else if(advSort==="branches")a.sort((x,y)=>y.children.filter(c=>!c.dead).length-x.children.filter(c=>!c.dead).length);
+    else if(advSort==="velocity")a.sort((x,y)=>recentDistinct(y)-recentDistinct(x));
+    else if(advSort==="ignition")a.sort((x,y)=>ignitionMul(y)-ignitionMul(x));
+    else if(advSort==="oldest")a.sort((x,y)=>x.created-y.created);
+    return a;
+  }
+  if(sortMode==="dying")a.sort((x,y)=>x.expires-y.expires);
+  else if(sortMode==="hot")a.sort((x,y)=>distinct(y)-distinct(x)||x.expires-y.expires);
+  else if(sortMode==="new")a.sort((x,y)=>y.created-x.created);
+  else if(sortMode==="grade")a.sort((x,y)=>standing(y)-standing(x)||distinct(y)-distinct(x));
+  return a;
+}
+function surfacedBranches(){
+  if(!showReshares) return [];
+  const cand=[];
+  for(const r of roots){ if(r.dead) continue; for(const b of r.children){ if(!b.dead && b.kind==="node") cand.push(b); } }
+  cand.sort((a,b)=>b.id-a.id);                 // newest reposts surface first
+  return cand.slice(0,6);
+}
+const pinned=new Set();
+let feedHovered=false, pendingReorder=false;
+function desiredOrder(){
+  feedBranches=surfacedBranches();
+  const items=roots.filter(e=>!e.dead).concat(feedBranches);
+  sortItems(items);
+  const pins=items.filter(e=>pinned.has(e.id)), rest=items.filter(e=>!pinned.has(e.id));
+  return pins.concat(rest);
+}
+function userBusy(){
+  if(activeAdd&&document.activeElement&&activeAdd.contains(document.activeElement)) return true;
+  if(feedHovered) return true;
+  return roots.some(e=>!e.dead&&e.drawerOpen);
+}
+function currentDomOrder(){return [...feedEl.children].map(c=>+c.dataset.id);}
+function applyOrder(force){
+  const order=desiredOrder();
+  order.forEach(e=>{ if(!e.el) feedEl.appendChild(e.kind==="node"?buildReshareCard(e):buildCard(e)); feedEl.appendChild(e.el); });
+  pendingReorder=false; updatePill();
+}
+function updatePill(){
+  const pill=document.getElementById("reorder-pill");
+  pill.style.display = pendingReorder ? "" : "none";
+}
+function reflow(){
+  const order=desiredOrder();
+  const wantIds=new Set(order.map(e=>e.id));
+  // drop reshare cards no longer surfaced (unsurfaced or dead) and clear their stale el so they can resurface later
+  [...feedEl.children].forEach(c=>{ if(c.dataset.kind==="reshare" && !wantIds.has(+c.dataset.id)){ const id=+c.dataset.id; const b=allEmbers.find(o=>o.id===id); if(b)b.el=null; c.remove(); } });
+  order.forEach(e=>{ if(!e.el) feedEl.appendChild(e.kind==="node"?buildReshareCard(e):buildCard(e)); });
+  document.getElementById("alive-count").textContent=roots.filter(e=>!e.dead).length;
+  const want=order.map(e=>e.id).join(","), have=currentDomOrder().join(",");
+  if(want===have){pendingReorder=false;updatePill();return;}
+  if(userBusy()){pendingReorder=true;updatePill();}
+  else applyOrder(false);
+}
+function reroot(node,root){node.root=root;node.children.forEach(ch=>reroot(ch,root));}
+function makeSprout(c){
+  if(c.el){c.el.remove();c.el=null;}                        // shed any reshare card so it rebuilds as a real root
+  c.kind="root"; c.parent=null; c.root=c; reroot(c,c);
+  c.sprouting=true; c.sproutEnd=simNow+c.ttl*0.6; c.sproutBase=distinct(c); c.zone="hearth"; c.clash=null;
+  c.expires=simNow + Math.min(Math.max(0,c.expires-simNow), c.ttl*0.3);   // orphaned and bleeding faster
+  c.nodeCount=descendants(c).length; c.lastDistinctAt=simNow;
+  roots.push(c);
+}
+function slip(e){ e.grade=Math.max(0,e.grade-1); e.lastDistinctAt=simNow; if(e.el)flash(e,`▽ slipped to ${GRADES[e.grade].name}`,"var(--ash)"); if(e.drawerOpen)renderDrawer(e); }
+function die(e){
+  e.dead=true;
+  if(e.kind==="node"){ return; }                          // node death -> dormant in tree (record kept)
+  records.push({lifespan:Math.max(0,simNow-e.created),distinct:distinct(e),reposts:e.reposts,branches:e.children.length,peak:e.peakGrade});
+  e.children.filter(c=>!c.dead).forEach(makeSprout);      // living branches get one chance to take root
+  if(e.clash) resolveClash(e);                            // dying mid-clash hands the win to the opponent
+  if(e.el){e.el.classList.add("dead");setTimeout(()=>{if(e.el){e.el.remove();e.el=null;}},520);}
+  if(graveEl.querySelector(".grave-empty"))graveEl.innerHTML="";
+  const row=document.createElement("div");row.className="ashrow";
+  const lived=Math.max(0,simNow-e.created),pg=GRADES[e.peakGrade];
+  row.innerHTML=`<span class="ash-dot" style="background:${e.peakGrade>0?pg.color:"var(--cold)"}"></span><span class="ash-text">@${e.author}: ${esc(e.text)}</span><span class="ash-meta">${e.peakGrade>0?pg.name+" · ":""}${distinct(e)} ppl · lived ${fmtClock(lived)}</span>`;
+  graveEl.prepend(row);
+  document.getElementById("dead-count").textContent=(+document.getElementById("dead-count").textContent)+1;
+}
+
+function tickFrame(){
+  for(const e of roots){
+    if(e.dead||!e.el)continue;
+    const left=e.expires-simNow, wall=wallTime(e);
+    const wf=Math.max(0,Math.min(1,left/wall)), rf=Math.min(1,reachableAge(e)/wall), cf=Math.min(1,Math.max(0,left/e.ttl));
+    const col=emberColor(cf);
+    const fill=e.el.querySelector(".js-fill"); fill.style.width=(wf*100).toFixed(2)+"%"; fill.style.background=rgbStr(col); fill.style.boxShadow=`0 0 10px ${rgbStr(col)}`;
+    e.el.querySelector(".js-marker").style.left=`calc(${(rf*100).toFixed(2)}% - 1px)`;
+    const clk=e.el.querySelector(".js-clock"); clk.textContent=fmtClock(left); clk.style.color=rgbStr(col);
+    e.el.querySelector(".js-reposts").textContent=`♻ ${e.reposts}`;
+    e.el.querySelector(".js-dist").textContent=`· ${distinct(e)} ppl`;
+    const sv=e.el.querySelector(".js-save"); sv.innerHTML=(e.closestSaver&&e.closestFrac<0.5)?`<span class="sep">·</span> <span class="save">⚡ @${e.closestSaver} @ ${Math.round(e.closestFrac*100)}%</span>`:"";
+    e.el.querySelector(".js-tidi").textContent=(e.clash&&e.clash.dilated)?"· ⧖ time dilated":"";
+    const ig=ignitionMul(e); e.el.querySelector(".js-ignite").textContent=ig>1.05?`· ⚡ ignition ×${ig.toFixed(2)}`:"";
+    const R=e.effDecay, dr=e.el.querySelector(".js-decay"); if(dr){dr.textContent=Math.abs(R-1)>0.02?`· decay ×${R.toFixed(2)}`:"";dr.style.color=R>1?"var(--dying)":R<1?"var(--spark)":"var(--ash)";}
+    e.el.querySelector(".js-capL").textContent=`▲ reachable now: ${fmtClock(reachableAge(e))}`;
+    const cr=e.el.querySelector(".js-capR"); cr.textContent=e.grade<MAXG?`wall ⟶ ${GRADES[e.grade].name} cap`:`Inferno · final`; cr.style.color=GRADES[e.grade].color;
+    if(cf<CRIT) e.wentCritical=true;
+    e.el.classList.toggle("dying",cf<0.35); e.el.classList.toggle("crit",cf<CRIT&&cf>0);
+    // clash row
+    const crow=e.el.querySelector(".js-clash");
+    if(e.clash){crow.classList.add("on");const opp=e.opponent;const oppLife=Math.max(0,opp.expires-simNow);const myLife=Math.max(0,e.expires-simNow);const tot=oppLife+myLife||1;e.el.querySelector(".js-clash-label").innerHTML=`⚔ vs @${opp.author} <span style="color:${GRADES[opp.grade].color}">${GRADES[opp.grade].name}</span>${e.shield>0?` · shield ${Math.round(e.shield)}`:""}`;e.el.querySelector(".js-clash-bar").style.width=(myLife/tot*100).toFixed(0)+"%";}
+    else crow.classList.remove("on");
+    e.el.classList.toggle("sprout",!!e.sprouting);
+    const meta=e.el.querySelector(".meta"); if(meta){const want=e.sprouting?`🌱 sprouting — rally ${Math.max(0,3-(distinct(e)-e.sproutBase))} more to take root`:"original"; if(meta.textContent!==want)meta.textContent=want;}
+    const badges=e.el.querySelector(".js-badges"); const sig=e.grade+"|"+[...e.traits].join(",")+"|"+liftOf(e).toFixed(1)+"|"+e.bornEpoch;
+    if(badges.dataset.sig!==sig){badges.innerHTML=epochChip(e)+gradeBadge(e)+traitChips(e);badges.dataset.sig=sig;}
+  }
+  // surfaced reposts (reshare cards) have their own little lifeline to keep fresh
+  for(const b of feedBranches){
+    if(b.dead||!b.el||b.kind!=="node")continue;
+    const left=b.expires-simNow, wf=fracWall(b), col=rgbStr(emberColor(Math.min(1,Math.max(0,left/b.ttl))));
+    const fill=b.el.querySelector(".js-fill"); if(fill){fill.style.width=(wf*100).toFixed(1)+"%";fill.style.background=col;fill.style.boxShadow=`0 0 8px ${col}`;}
+    const clk=b.el.querySelector(".js-clock"); if(clk){clk.textContent=fmtClock(left);clk.style.color=col;}
+    const dd=b.el.querySelector(".js-dist"); if(dd)dd.textContent=`${distinct(b)} keeping it alive`;
+    const bt=b.el.querySelector(".js-btitles"); if(bt){const sig=[...b.btitles].join(",");if(bt.dataset.sig!==sig){bt.innerHTML=[...b.btitles].map(t=>`<span class="titlechip" title="${BRANCH_TITLES[t].desc}">✦${BRANCH_TITLES[t].label} </span>`).join("");bt.dataset.sig=sig;}}
+  }
+}
+function descendants(e){const out=[];const rec=n=>{n.children.forEach(c=>{out.push(c);rec(c);});};rec(e);return out;}
+
+/* ---------- ecosystem ---------- */
+function ecosystem(dt){
+  for(const e of allEmbers){
+    if(e.dead)continue;
+    const f=fracNat(e);
+    let attract=Math.max(0,f>0.2?f:f*0.25); if(e.root.traits&&e.root.traits.has("radiant"))attract*=1.6;
+    const base=(e.kind==="node"?0.0010:0.0016)*dt;
+    if(Math.random()<base*attract*(1+distinct(e)*0.05)) botRepost(e, e.kind!=="node"&&Math.random()<0.12 ? "yes" : null);
+    // rescue swarm near death on popular roots
+    if(e.kind==="root"&&f<CRIT&&distinct(e)>=3&&Math.random()<0.02*dt){const n=GRADES[e.grade].surge+Math.floor(Math.random()*2);for(let i=0;i<n;i++)setTimeout(()=>{if(!e.dead)botRepost(e);},i*120);}
+    // clash participation: bots pile onto an active front (favor the underdog -> upsets)
+    if(e.kind==="root"&&e.clash&&Math.random()<0.05*dt){const c=e.clash;const under=(c.a.grade<=c.b.grade)?c.a:c.b;const side=Math.random()<0.6?under:(Math.random()<0.5?c.a:c.b);if(!side.dead){botRepost(side);applyPressure(side);}}
+    if(e.storm>0)e.storm=Math.max(0,e.storm-dt);
+  }
+  if(entropyOn&&Math.random()<0.0009*dt){const c=roots.filter(e=>!e.dead&&fracNat(e)>0.25);if(c.length){const e=c[(Math.random()*c.length)|0];e.storm=12;flash(e,"🜂 ember storm","var(--dying)");}}
+  // auto-open a clash if two seeded open posts are idle (so you can witness one)
+  if(Math.random()<0.004*dt){const open=roots.filter(e=>!e.dead&&e.zone==="open"&&!e.clash);if(open.length>=2){const pair=open.sort(()=>Math.random()-0.5);if(Math.abs(tier(pair[0])-tier(pair[1]))<=1)startClash(pair[0],pair[1]);}}
+  // VIRAL SIM: popular posts pull crowds in proportion to their reach; branches deepen; sub-embers ascend and sometimes sprout
+  if(viral){
+    const cap=allEmbers.length>1400;                       // soft guard against unbounded tree growth
+    for(const e of roots){
+      if(e.dead)continue;
+      const pull=Math.min(1,distinct(e)/30);
+      if(Math.random()<(0.05*dt)*(0.35+pull)){const n=2+((Math.random()*5)|0);for(let i=0;i<n;i++)setTimeout(()=>{if(!e.dead)crowdRepost(e, !cap&&Math.random()<0.22&&e.children.length<20);},i*55);}
+      if(e.children.length&&Math.random()<0.05*dt){const b=e.children[(Math.random()*e.children.length)|0];if(!b.dead)crowdRepost(b, !cap&&Math.random()<0.3&&descendants(b).length<6);}
+    }
+  }
+}
+
+function loop(now){
+  const dtReal=(now-lastReal)/1000; lastReal=now; const dtSim=dtReal*pace;
+  simNow+=dtSim;
+  tickClashes(dtSim);
+  for(const e of allEmbers){ if(e.dead)continue; const target=decayTarget(e); const step=SLEW*dtReal; e.effDecay+=clamp(target-e.effDecay,-step,step); const R=e.effDecay; if(Math.abs(R-1)>0.001){ const adj=(1-R)*dtSim; const cap=e.created+reachableAge(e); e.expires = adj>0 ? Math.min(e.expires+adj, Math.max(cap,e.expires)) : e.expires+adj; } } // regime + local modifiers ease in via slew cap so a growth spike can't tank the feed
+  for(const e of allEmbers) if(!e.dead&&e.expires<=simNow) die(e);
+  for(const e of roots) checkPaths(e);
+  tickFrame();
+  requestAnimationFrame(loop);
+}
+setInterval(reflow,350);
+setInterval(updateRegime,500);
+setInterval(()=>{
+  for(const e of roots){
+    if(e.dead) continue;
+    // sprout resolution: rally enough fresh support before the window closes, or it stays a weak orphan and likely dies
+    if(e.sprouting){
+      if(distinct(e)-e.sproutBase>=3){ e.sprouting=false; e.expires=simNow+reachableAge(e)*0.6; sproutSuccess++; if(e.author===ME.h)awardTitle("Founder","a branch of yours took root after its trunk fell"); if(e.el)flash(e,"🌱 took root!","var(--ember)"); }
+      else if(simNow>e.sproutEnd){ e.sprouting=false; }
+      continue;
+    }
+    // support-starvation slip, resisted by deep-burning / veteran
+    if(e.grade>0 && !isFledgling(e) && fracNat(e)<0.30){
+      const grace=(e.ttl*0.5)*(e.traits.has("deepburn")?2:1)*(e.traits.has("veteran")?1.5:1);
+      if(simNow-e.lastDistinctAt>grace) slip(e);
+    }
+  }
+},1000);
+let lastEco=performance.now();
+setInterval(()=>{const now=performance.now();const dt=((now-lastEco)/1000)*pace;lastEco=now;ecosystem(dt);},500);
+setInterval(()=>{for(const e of roots){if(e.drawerOpen&&e.el&&!(activeAdd&&e.el.querySelector(".js-drawer")&&e.el.querySelector(".js-drawer").contains(activeAdd)))renderDrawer(e);}},1600);
+
+function updateVitals(){document.getElementById("v-saves").textContent=me.saves;document.getElementById("v-clutch").textContent=me.clutch;document.getElementById("v-asc").textContent=me.asc;document.getElementById("v-kill").textContent=me.kills;document.getElementById("v-titles").textContent=me.titles.size;const w=document.getElementById("v-titles-wrap");if(w)w.title=me.titles.size?[...me.titles].map(([n,d])=>`${n} — ${d}`).join("\n"):"Earn titles through what your posts achieve";}
+function showToast(html){const wrap=document.getElementById("toast-wrap");if(!wrap)return;const t=document.createElement("div");t.className="toast";t.innerHTML=html;wrap.appendChild(t);setTimeout(()=>{t.style.transition="opacity .4s";t.style.opacity="0";setTimeout(()=>t.remove(),400);},3200);}
+function awardTitle(name,desc){if(me.titles.has(name))return;me.titles.set(name,desc);updateVitals();showToast(`🏆 title earned · <b>${name}</b><br><span style="opacity:.7;font-size:11px">${desc}</span>`);}
+function checkPlayerTitles(){
+  if(me.clutch>=10) awardTitle("Clutch Hand","10+ last-second saves");
+  if(me.asc>=5) awardTitle("Kindler","sparked 5+ ascensions");
+  if(me.kills>=1) awardTitle("Warlord","won a clash in the open");
+  if(me.kills>=5) awardTitle("Warlord ⋅ Ascendant","won 5+ clashes");
+}
+function median(arr){if(!arr.length)return 0;const a=arr.slice().sort((x,y)=>x-y);const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2;}
+function avg(arr){return arr.length?arr.reduce((s,x)=>s+x,0)/arr.length:0;}
+function renderAnalytics(){
+  const panel=document.getElementById("analytics-panel");
+  const dead=records.slice();                       // finished lifespans (most reliable)
+  const live=roots.filter(e=>!e.dead).map(e=>({lifespan:simNow-e.created,distinct:distinct(e),reposts:e.reposts,branches:e.children.length,peak:e.peakGrade}));
+  const all=dead.concat(live);
+  if(!all.length){panel.innerHTML='<h3>Analytics</h3><div class="am">No posts yet. Spawn a few viral posts and let them run, then reopen this.</div>';panel.classList.add("open");return;}
+  const lifeD=dead.map(r=>r.lifespan);
+  const lifeAll=all.map(r=>r.lifespan);
+  const gd=[0,0,0,0,0,0]; all.forEach(r=>{ for(let i=0;i<=r.peak;i++) gd[i]++; });   // cumulative: reached AT LEAST grade i (monotonic, so Inferno⊆Wildfire⊆…)
+  const stat=(k,v)=>`<div class="am"><span class="k">${k}</span><span class="v">${v}</span></div>`;
+  panel.innerHTML=`<h3>Analytics — ${all.length} posts (${dead.length} dead · ${live.length} alive)</h3>
+   <div class="agrid">
+    ${stat("lifespan · avg", fmtClock(avg(lifeAll)))}
+    ${stat("lifespan · median", fmtClock(median(lifeAll)))}
+    ${stat("lifespan · longest", fmtClock(Math.max(...lifeAll)))}
+    ${stat("lifespan · shortest", fmtClock(Math.min(...lifeAll)))}
+    ${dead.length?stat("dead-only · median life", fmtClock(median(lifeD))):""}
+   </div>
+   <h3 style="margin-top:14px">Contribution</h3>
+   <div class="agrid">
+    ${stat("distinct · avg", avg(all.map(r=>r.distinct)).toFixed(1))}
+    ${stat("distinct · median", median(all.map(r=>r.distinct)))}
+    ${stat("distinct · most", Math.max(...all.map(r=>r.distinct)))}
+    ${stat("reposts · avg", avg(all.map(r=>r.reposts)).toFixed(1))}
+    ${stat("branches · avg", avg(all.map(r=>r.branches)).toFixed(1))}
+    ${stat("branches · most", Math.max(...all.map(r=>r.branches)))}
+    ${stat("sprouts that took root", sproutSuccess)}
+   </div>
+   <div class="gdist">reached at least: ${GRADES.map((g,i)=>`<span style="color:${g.color}">${g.name} ${gd[i]}</span>`).join(" · ")}</div>`;
+  panel.classList.add("open");
+}
+
+document.getElementById("speed").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;pace=+b.dataset.speed;[...e.currentTarget.children].forEach(c=>c.setAttribute("aria-pressed",c===b));});
+document.getElementById("sort").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;sortMode=b.dataset.sort;[...e.currentTarget.children].forEach(c=>c.setAttribute("aria-pressed",c===b));document.getElementById("feed-label").textContent={dying:"Dying first",hot:"Most supported",new:"Newest",grade:"Highest grade"}[sortMode];applyOrder(true);});
+feedEl.addEventListener("pointerenter",()=>{feedHovered=true;});
+feedEl.addEventListener("pointerleave",()=>{feedHovered=false;});
+document.getElementById("reorder-pill").addEventListener("click",()=>applyOrder(true));
+document.getElementById("ttl").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;composeTTL=+b.dataset.ttl;[...e.currentTarget.children].forEach(c=>c.setAttribute("aria-pressed",c===b));});
+document.getElementById("entropy").addEventListener("click",e=>{entropyOn=!entropyOn;e.currentTarget.setAttribute("aria-pressed",entropyOn);});
+document.getElementById("reshares").addEventListener("click",e=>{showReshares=!showReshares;e.currentTarget.setAttribute("aria-pressed",showReshares);applyOrder(true);});
+document.getElementById("advsort").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;advSort=b.dataset.adv;[...e.currentTarget.children].forEach(c=>c.setAttribute("aria-pressed",c===b));applyOrder(true);});
+document.getElementById("analytics-btn").addEventListener("click",()=>{const p=document.getElementById("analytics-panel");if(p.classList.contains("open")){p.classList.remove("open");}else{renderAnalytics();}});
+document.getElementById("growth-spike").addEventListener("click",()=>{appDensity=Math.min(0.22,appDensity+0.12);showToast("📈 <b>growth spike</b><br><span style=\"opacity:.7;font-size:11px\">engagement surged — watch the hearth harden and the slew cap ease posts in instead of tanking them</span>");});
+document.getElementById("viral").addEventListener("click",e=>{viral=!viral;e.currentTarget.setAttribute("aria-pressed",viral);});
+document.getElementById("spawn-viral").addEventListener("click",spawnViral);
+const composeEl=document.getElementById("compose");
+composeEl.addEventListener("input",()=>{composeEl.style.height="auto";composeEl.style.height=composeEl.scrollHeight+"px";document.getElementById("post-btn").disabled=!composeEl.value.trim();});
+document.getElementById("post-btn").disabled=true;
+function publish(){const t=composeEl.value.trim();if(!t)return;const e=makeEmber("root",ME.h,t,composeTTL,0,null);roots.push(e);if(e.bornEpoch===0)awardTitle("First Bearer of the Flame","posted while the hearth was barely lit — a permanent, unforgeable founder mark");composeEl.value="";composeEl.style.height="auto";document.getElementById("post-btn").disabled=true;reflow();setTimeout(()=>e.el&&e.el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"}),120);}
+document.getElementById("post-btn").onclick=publish;
+composeEl.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key==="Enter")publish();});
+
+document.getElementById("legend").innerHTML=GRADES.map(g=>`<span class="lg"><i style="background:${g.color}"></i>${g.name}</span>`).join("")+`<span class="lg" style="margin-left:4px"><i style="background:var(--flame-tip)"></i>▲ reachable</span><span class="lg"><i style="background:var(--spark)"></i>wall</span>`;
+
+function seed(){
+  seedPosts.forEach(p=>{const e=makeEmber("root",p.a,p.t,p.ttl,p.age,null);if(p.open)e.zone="open";roots.push(e);});
+  // give history with several DISTINCT supporters + a couple of living branches
+  roots.forEach(e=>{const n=2+Math.floor(Math.random()*3);for(let i=0;i<n;i++)repost(e,bots[(Math.random()*bots.length)|0].h,Math.random()<0.4?"this. exactly this.":null);});
+}
+seed(); updateVitals(); updateEmber(); reflow(); lastReal=performance.now(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>

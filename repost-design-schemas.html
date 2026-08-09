@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repost · Front-End Design Schemas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coal:#1F1A14; --soot:#2A231B; --ember:#C8761F; --gold:#D9A441; --flame:#E8A13D;
+  --dying:#B2472F; --ash:#8A8178; --ash-d:#6B6258; --cream:#FBF7F0; --sand:#F3ECE0;
+  --line:#D8CFC2; --ink:#23201B; --spark:#5FA8B8; --sage:#3F6B57; --rust:#9C3B25;
+  --night:#10141C; --night2:#161C28; --signal:#F2B441; --signal-dim:#6E7891;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+body{font-family:'Schibsted Grotesk',sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;font-size:15px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 28px 90px}
+
+/* ---------- document chrome ---------- */
+.hero{background:var(--coal);color:#fff;padding:54px 0 44px;border-bottom:4px solid var(--ember)}
+.hero .wrap{padding-bottom:0}
+.hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:44px;color:var(--gold);line-height:1.05}
+.hero .sub{font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E8DFD0;margin-top:10px}
+.hero p{max-width:640px;margin-top:18px;color:#D8CFC2;font-size:16px}
+h2.sec{font-family:'Fraunces',serif;font-size:27px;font-weight:600;margin:64px 0 6px;color:var(--coal)}
+h2.sec .n{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--ember);vertical-align:middle;margin-right:10px;letter-spacing:.1em}
+p.lead{max-width:720px;color:#4a443c;margin-bottom:22px}
+h3.sub{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:34px 0 8px}
+.rulebox{background:var(--sand);border-left:3px solid var(--ember);padding:14px 18px;max-width:760px;margin:18px 0}
+.rulebox b{color:var(--rust)}
+.note{font-size:12.5px;color:var(--ash-d);max-width:720px}
+
+/* ---------- schema tabs ---------- */
+.tabs{display:flex;gap:8px;margin:26px 0 0;flex-wrap:wrap}
+.tab{font-family:'Spline Sans Mono',monospace;font-size:12.5px;letter-spacing:.06em;padding:9px 16px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ash-d)}
+.tab[aria-selected="true"]{background:var(--coal);color:var(--gold);border-color:var(--coal)}
+.tab:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.panel{display:none;border:1px solid var(--line);border-top:3px solid var(--ember);background:#fff;padding:30px;margin-top:-1px}
+.panel.on{display:block}
+.schemahead{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+.schemahead h3{font-family:'Fraunces',serif;font-size:24px;font-weight:700}
+.schemahead .tagline{font-style:italic;color:var(--ash-d);font-size:14px}
+.claim{margin:14px 0 4px;max-width:740px}
+.claim b{color:var(--rust)}
+
+.tokens{display:flex;gap:10px;margin:20px 0 6px;flex-wrap:wrap}
+.swatch{width:104px}
+.swatch .chip{height:44px;border:1px solid rgba(0,0,0,.12)}
+.swatch .nm{font-family:'Spline Sans Mono',monospace;font-size:10.5px;margin-top:5px;color:var(--ash-d)}
+.typerow{display:flex;gap:28px;flex-wrap:wrap;margin:14px 0 4px}
+.typecell{min-width:200px}
+.typecell .lbl{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ember)}
+.typecell .ex{margin-top:2px}
+.sig{margin:16px 0 8px;padding:12px 16px;background:var(--sand);border-left:3px solid var(--gold);max-width:740px}
+.sig .lbl{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ember)}
+
+.demo-pair{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:26px 0 8px}
+@media(max-width:860px){.demo-pair{grid-template-columns:1fr}}
+.demo-slot .cap{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash-d);margin-bottom:8px}
+
+/* =========================================================
+   SCHEMA A · HEARTHLIGHT (warm dark room)
+   ========================================================= */
+.A-stage{background:radial-gradient(1200px 500px at 50% -10%, #2E2419 0%, #201A12 55%, #191410 100%);padding:26px;border-radius:14px}
+.A-card{background:linear-gradient(180deg,#2A2218,#241D14);border:1px solid #3A3022;border-radius:14px;padding:18px 18px 14px;color:#EFE6D6;max-width:430px;box-shadow:0 6px 30px rgba(0,0,0,.35)}
+.A-top{display:flex;align-items:center;gap:10px}
+.A-av{width:38px;height:38px;border-radius:50%;background:conic-gradient(from 200deg,#D9A441,#B5651D,#7A4a1c,#D9A441);display:grid;place-items:center;font-weight:700;color:#1F1A14;font-size:15px}
+.A-handle{font-weight:700;font-size:14.5px}
+.A-meta{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#A99B85}
+.A-chip{display:inline-block;font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.06em;border:1px solid #4A3D2A;border-radius:20px;padding:2px 8px;color:#D9A441;margin-right:5px}
+.A-chip.epoch{color:#CDB6FF;border-color:#4a4060}
+.A-body{margin:12px 0 14px;font-size:14.5px;line-height:1.5}
+.A-wick{position:relative;height:7px;border-radius:4px;background:#171310;overflow:hidden}
+.A-wick .fill{position:absolute;inset:0;width:68%;border-radius:4px;background:linear-gradient(90deg,#D9A441,#E8A13D 55%,#C8761F);box-shadow:0 0 14px 2px rgba(232,161,61,.45)}
+.A-wick.low .fill{width:12%;background:linear-gradient(90deg,#B2472F,#8f3324);box-shadow:0 0 12px 2px rgba(178,71,47,.5);animation:Apulse 1.6s ease-in-out infinite}
+@keyframes Apulse{50%{opacity:.55}}
+.A-under{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#A99B85}
+.A-acts{display:flex;gap:10px;margin-top:12px}
+.A-save{flex:1;text-align:center;padding:9px 0;border-radius:10px;font-weight:700;font-size:13px;background:linear-gradient(180deg,#E8A13D,#C8761F);color:#1F1A14;border:none;cursor:pointer}
+.A-save:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.A-ghostbtn{flex:1;text-align:center;padding:9px 0;border-radius:10px;font-size:13px;background:transparent;color:#D9A441;border:1px solid #4A3D2A;cursor:pointer}
+.A-cost{font-size:9.5px;opacity:.75;display:block;font-family:'Spline Sans Mono',monospace;font-weight:400}
+/* A profile */
+.A-prof{background:linear-gradient(180deg,#2A2218,#221B12);border:1px solid #3A3022;border-radius:14px;color:#EFE6D6;max-width:430px;overflow:hidden}
+.A-prof .bandhead{padding:20px 18px 14px;background:radial-gradient(400px 120px at 30% 0%,rgba(232,161,61,.16),transparent)}
+.A-prof .who{display:flex;gap:12px;align-items:center}
+.A-prof .av{width:52px;height:52px;border-radius:50%;background:conic-gradient(from 200deg,#D9A441,#B5651D,#7A4a1c,#D9A441);display:grid;place-items:center;font-weight:700;color:#1F1A14;font-size:19px}
+.A-prof h4{font-size:17px}
+.A-standing{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#D9A441;margin-top:2px}
+.A-titles{padding:0 18px 8px}
+.A-sect{padding:12px 18px;border-top:1px solid #362C1E}
+.A-sect .lbl{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#A99B85;margin-bottom:8px}
+.A-mini{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:13px}
+.A-mini .bar{flex:1;height:5px;border-radius:3px;background:#171310;overflow:hidden;position:relative}
+.A-mini .bar i{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,#D9A441,#C8761F)}
+.A-tend{display:flex;gap:14px;font-family:'Spline Sans Mono',monospace;font-size:11px;color:#D8CFC2}
+.A-tend b{display:block;font-size:16px;color:#E8A13D;font-family:'Fraunces',serif}
+
+/* =========================================================
+   SCHEMA B · TINDER & ASH (paper light, color = life)
+   ========================================================= */
+.B-stage{background:#F6F3EC;padding:26px;border-radius:4px;border:1px solid #E4DED2}
+.B-card{background:#FFFFFF;border:1px solid #DDD6C8;max-width:430px;padding:16px 18px 14px;color:#2A2620;position:relative}
+.B-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#D9A441,#C8761F)}
+.B-card.low::before{background:linear-gradient(180deg,#B2472F,#7c2d1c)}
+.B-top{display:flex;align-items:baseline;gap:8px}
+.B-handle{font-weight:700;font-size:14px}
+.B-meta{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#8A8178}
+.B-body{margin:10px 0 12px;font-size:14.5px;font-family:'Fraunces',serif;line-height:1.55}
+.B-card.low .B-body{color:#6f675c}
+.B-life{display:flex;align-items:center;gap:10px}
+.B-ring{width:30px;height:30px;border-radius:50%;background:conic-gradient(#C8761F 0 68%, #EDE8DC 68% 100%);display:grid;place-items:center;flex:none}
+.B-ring i{width:20px;height:20px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:'Spline Sans Mono',monospace;font-size:8.5px;color:#2A2620;font-style:normal}
+.B-card.low .B-ring{background:conic-gradient(#B2472F 0 12%, #EDE8DC 12% 100%)}
+.B-lifetext{font-family:'Spline Sans Mono',monospace;font-size:11px;color:#5c554a}
+.B-acts{display:flex;gap:8px;margin-top:12px}
+.B-save{padding:7px 18px;font-weight:700;font-size:13px;background:#C8761F;color:#fff;border:none;cursor:pointer}
+.B-save:focus-visible{outline:2px solid #2A2620;outline-offset:2px}
+.B-ghost{padding:7px 14px;font-size:13px;background:transparent;color:#2A2620;border:1px solid #C9C1B1;cursor:pointer}
+.B-chips{margin-top:10px}
+.B-chip{display:inline-block;font-family:'Spline Sans Mono',monospace;font-size:9.5px;border:1px solid #DDD6C8;padding:2px 8px;color:#6B6258;margin-right:5px}
+.B-chip.live{color:#C8761F;border-color:#C8761F}
+/* B profile */
+.B-prof{background:#fff;border:1px solid #DDD6C8;max-width:430px;color:#2A2620}
+.B-prof .head{padding:18px;border-bottom:1px solid #EDE8DC;display:flex;gap:14px;align-items:center}
+.B-prof .ring{width:56px;height:56px;border-radius:50%;background:conic-gradient(#C8761F 0 74%, #EDE8DC 74% 100%);display:grid;place-items:center;flex:none}
+.B-prof .ring i{width:44px;height:44px;border-radius:50%;background:#F6F3EC;display:grid;place-items:center;font-weight:700;font-style:normal;font-size:17px}
+.B-prof h4{font-size:16px}
+.B-prof .std{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#8A8178;margin-top:2px}
+.B-prof .std b{color:#C8761F}
+.B-cols{display:grid;grid-template-columns:1fr 1fr;font-family:'Spline Sans Mono',monospace;font-size:11px}
+.B-cols>div{padding:12px 16px;border-right:1px solid #EDE8DC}
+.B-cols>div:last-child{border-right:none}
+.B-cols .lbl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8A8178;margin-bottom:6px}
+.B-burning{display:flex;justify-content:space-between;margin-bottom:6px}
+.B-burning span:last-child{color:#C8761F}
+.B-ashrow{color:#9a9186}
+.B-foot{padding:10px 16px;border-top:1px solid #EDE8DC;font-family:'Spline Sans Mono',monospace;font-size:10px;color:#8A8178}
+
+/* =========================================================
+   SCHEMA C · SIGNALFIRE (night watch, instrument feed)
+   ========================================================= */
+.C-stage{background:linear-gradient(180deg,#0E1219,#131926);padding:26px;border-radius:10px}
+.C-card{display:flex;background:#161C28;border:1px solid #232C3E;max-width:460px;color:#DCE2EE;border-radius:8px;overflow:hidden}
+.C-rail{width:46px;flex:none;background:#111623;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 0;border-right:1px solid #232C3E}
+.C-rail .t{font-family:'Spline Sans Mono',monospace;font-size:9px;color:#6E7891;writing-mode:vertical-rl;letter-spacing:.12em}
+.C-rail .gauge{width:6px;flex:1;margin:8px 0;background:#0C101A;border-radius:3px;position:relative;overflow:hidden}
+.C-rail .gauge i{position:absolute;left:0;right:0;bottom:0;height:64%;background:linear-gradient(180deg,#F2B441,#c07b1e);border-radius:3px}
+.C-card.low .gauge i{height:9%;background:linear-gradient(180deg,#E05A3A,#a23517)}
+.C-rail .pct{font-family:'Spline Sans Mono',monospace;font-size:10px;color:#F2B441}
+.C-card.low .pct{color:#E05A3A}
+.C-main{padding:14px 16px;flex:1}
+.C-top{display:flex;justify-content:space-between;gap:8px;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:#6E7891}
+.C-top b{color:#DCE2EE;font-family:'Schibsted Grotesk',sans-serif;font-size:13.5px}
+.C-body{margin:9px 0 10px;font-size:14px;line-height:1.5}
+.C-data{display:flex;gap:14px;font-family:'Spline Sans Mono',monospace;font-size:10px;color:#8894AC;flex-wrap:wrap}
+.C-data b{color:#F2B441;font-weight:500}
+.C-acts{display:flex;gap:8px;margin-top:12px}
+.C-save{padding:7px 16px;font-family:'Spline Sans Mono',monospace;font-size:12px;background:#F2B441;color:#10141C;border:none;border-radius:5px;font-weight:500;cursor:pointer}
+.C-save:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.C-ghost{padding:7px 12px;font-family:'Spline Sans Mono',monospace;font-size:12px;background:transparent;color:#8894AC;border:1px solid #2C374E;border-radius:5px;cursor:pointer}
+/* C profile */
+.C-prof{background:#161C28;border:1px solid #232C3E;border-radius:8px;max-width:460px;color:#DCE2EE;overflow:hidden}
+.C-prof .head{padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #232C3E}
+.C-prof h4{font-size:16px}
+.C-prof .std{font-family:'Spline Sans Mono',monospace;font-size:10px;color:#6E7891;margin-top:3px}
+.C-prof .std b{color:#F2B441;font-weight:500}
+.C-badge{font-family:'Spline Sans Mono',monospace;font-size:9.5px;border:1px solid #3A2F55;color:#CDB6FF;padding:3px 8px;border-radius:4px}
+.C-grid{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #232C3E}
+.C-grid>div{padding:12px;text-align:center;border-right:1px solid #232C3E}
+.C-grid>div:last-child{border-right:none}
+.C-grid .v{font-family:'Fraunces',serif;font-size:19px;color:#F2B441}
+.C-grid .k{font-family:'Spline Sans Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#6E7891;margin-top:2px}
+.C-list{padding:12px 16px}
+.C-list .lbl{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#6E7891;margin-bottom:8px}
+.C-fire{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:12.5px}
+.C-fire .g{flex:1;height:4px;background:#0C101A;border-radius:2px;position:relative;overflow:hidden}
+.C-fire .g i{position:absolute;left:0;top:0;bottom:0;background:#F2B441;border-radius:2px}
+.C-fire .pc{font-family:'Spline Sans Mono',monospace;font-size:9.5px;color:#8894AC;width:32px;text-align:right}
+
+/* ---------- standards table ---------- */
+table.std{width:100%;border-collapse:collapse;margin:18px 0 8px;font-size:13px}
+table.std th{background:var(--coal);color:#fff;text-align:left;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px}
+table.std td{border-bottom:1px solid var(--line);padding:10px 12px;vertical-align:top}
+table.std tr:nth-child(even) td{background:#F7F1E8}
+table.std td.el{font-weight:700;white-space:nowrap;width:172px}
+table.std td.el .t{display:block;font-family:'Spline Sans Mono',monospace;font-size:9px;font-weight:400;letter-spacing:.08em;margin-top:3px}
+.t.spine{color:var(--rust)} .t.core{color:var(--ember)} .t.opt{color:var(--sage)}
+table.std td .r{color:var(--rust);font-weight:600}
+.legend{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ash-d);margin-top:4px}
+.legend b{font-weight:500}
+.legend .spine{color:var(--rust)} .legend .core{color:var(--ember)} .legend .opt{color:var(--sage)}
+
+/* ---------- global standards blocks ---------- */
+.gridrules{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+@media(max-width:860px){.gridrules{grid-template-columns:1fr}}
+.rulecard{border:1px solid var(--line);background:#fff;padding:16px 18px}
+.rulecard h4{font-family:'Fraunces',serif;font-size:16px;margin-bottom:6px}
+.rulecard ul{margin:6px 0 0 18px}
+.rulecard li{margin-bottom:6px;font-size:13.5px}
+.lifescale{display:flex;height:26px;border:1px solid var(--line);margin:10px 0 4px;font-family:'Spline Sans Mono',monospace;font-size:9.5px;color:#fff;text-align:center;line-height:26px}
+.lifescale div{flex:1}
+footer{margin-top:70px;border-top:1px solid var(--line);padding-top:14px;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ash-d)}
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="wrap">
+  <h1>repost.</h1>
+  <div class="sub">Front-end design schemas · profiles · element standards</div>
+  <p>Three visual directions for the same spine, a profile model that resists vanity, and the standardized element list any of them must implement. Companion to the prototype, the sell sheet, and the builder's playbook.</p>
+</div></div>
+
+<div class="wrap">
+
+<h2 class="sec"><span class="n">01</span>What the front end must say before it says anything else</h2>
+<p class="lead">Every screen answers one question first: <b>is this thing alive, and how alive?</b> Life state outranks author, content, and chrome. The three schemas below disagree about mood and audience. They agree about that hierarchy, because the moment a card reads as "a post" before it reads as "a dying ember," the interface has left the product.</p>
+<div class="rulebox"><b>The interface rule of the wall:</b> life state is always visible, always legible without color alone, and always honest. No screen hides a lifeline, softens a death, or dresses a countdown as decoration.</div>
+
+<h2 class="sec"><span class="n">02</span>Three design schemas</h2>
+<p class="lead">Each schema states its claim, what it gives up, its tokens and type, a signature element, and two live samples: a post card (healthy and critical) and the profile treatment. Pick one as the identity. The other two remain honest alternatives, and Tinder &amp; Ash doubles as the print/marketing skin whichever way you go.</p>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-p="pA">A · HEARTHLIGHT</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="pB">B · TINDER &amp; ASH</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="pC">C · SIGNALFIRE</button>
+</div>
+
+<!-- ================= SCHEMA A ================= -->
+<section class="panel on" id="pA" role="tabpanel">
+  <div class="schemahead"><h3>Hearthlight</h3><span class="tagline">the warm dark room · default recommendation</span></div>
+  <p class="claim"><b>Claim:</b> the app is a room lit by the things burning in it. Warm dark surfaces, light that comes from posts rather than chrome, glow proportional to life. <b>It gives up:</b> daylight neutrality. This skin commits to atmosphere, and spreadsheet-minded users will read it as a place rather than a tool.</p>
+  <div class="tokens">
+    <div class="swatch"><div class="chip" style="background:#201A12"></div><div class="nm">room #201A12</div></div>
+    <div class="swatch"><div class="chip" style="background:#2A2218"></div><div class="nm">surface #2A2218</div></div>
+    <div class="swatch"><div class="chip" style="background:#E8A13D"></div><div class="nm">flame #E8A13D</div></div>
+    <div class="swatch"><div class="chip" style="background:#C8761F"></div><div class="nm">ember #C8761F</div></div>
+    <div class="swatch"><div class="chip" style="background:#B2472F"></div><div class="nm">dying #B2472F</div></div>
+    <div class="swatch"><div class="chip" style="background:#EFE6D6"></div><div class="nm">text #EFE6D6</div></div>
+  </div>
+  <div class="typerow">
+    <div class="typecell"><div class="lbl">Display · Fraunces</div><div class="ex" style="font-family:'Fraunces',serif;font-size:20px;font-weight:600">Keep it lit.</div></div>
+    <div class="typecell"><div class="lbl">Body · Schibsted Grotesk</div><div class="ex">Warm, round, reads at 14px on dark.</div></div>
+    <div class="typecell"><div class="lbl">Utility · Spline Sans Mono</div><div class="ex" style="font-family:'Spline Sans Mono',monospace;font-size:12.5px">2h 41m · decay ×0.96</div></div>
+  </div>
+  <div class="sig"><span class="lbl">SIGNATURE ELEMENT</span><br>The <b>wick</b>: every card sits on a glowing lifeline whose light bleeds into the room. Feed brightness becomes an honest ambient readout of community health, which makes the density regime something you can feel before you can name it.</div>
+
+  <div class="demo-pair">
+    <div class="demo-slot">
+      <div class="cap">Post card · healthy / critical</div>
+      <div class="A-stage">
+        <div class="A-card">
+          <div class="A-top"><div class="A-av">R</div><div><div class="A-handle">@riverkeeper</div><div class="A-meta">Flame · 2h 41m left</div></div></div>
+          <div style="margin-top:8px"><span class="A-chip epoch">⟡ Kindling Age</span><span class="A-chip">🔥 Flame</span><span class="A-chip">deepburn</span></div>
+          <div class="A-body">Finished the netting bench tonight. Third rebuild. The joints finally hold.</div>
+          <div class="A-wick"><div class="fill"></div></div>
+          <div class="A-under"><span>68% · 14 keepers</span><span>decay ×0.96</span></div>
+          <div class="A-acts">
+            <button class="A-save">Save it<span class="A-cost">🔥 3 ember</span></button>
+            <button class="A-ghostbtn">Add to it<span class="A-cost">🔥 6 ember</span></button>
+          </div>
+        </div>
+        <div class="A-card" style="margin-top:14px">
+          <div class="A-top"><div class="A-av" style="background:conic-gradient(from 200deg,#B2472F,#7c2d1c,#4a1c12,#B2472F);color:#EFE6D6">M</div><div><div class="A-handle">@mossline</div><div class="A-meta" style="color:#c98873">Ember · 9m left · critical</div></div></div>
+          <div class="A-body" style="opacity:.85">Does anyone else's grandmother narrate her own cooking. Asking with love.</div>
+          <div class="A-wick low"><div class="fill"></div></div>
+          <div class="A-under"><span style="color:#c98873">12% · clutch window open</span><span>decay ×1.31</span></div>
+          <div class="A-acts"><button class="A-save" style="background:linear-gradient(180deg,#7FD0E0,#5FA8B8)">Clutch save<span class="A-cost">🔥 3 ember</span></button></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-slot">
+      <div class="cap">Profile · a hearth you keep</div>
+      <div class="A-stage">
+        <div class="A-prof">
+          <div class="bandhead">
+            <div class="who"><div class="av">S</div><div>
+              <h4>@stillwater</h4>
+              <div class="A-standing">Standing: Blaze +0.8 lift · ⟡ First Flame</div>
+            </div></div>
+          </div>
+          <div class="A-titles"><span class="A-chip" style="color:#E8A13D">First Bearer of the Flame</span><span class="A-chip">Clutch Hand ×12</span><span class="A-chip">Founder</span></div>
+          <div class="A-sect">
+            <div class="lbl">Burning now</div>
+            <div class="A-mini"><span style="min-width:120px">the bench post</span><div class="bar"><i style="width:64%"></i></div><span class="A-meta">2h 41m</span></div>
+            <div class="A-mini"><span style="min-width:120px">river map thread</span><div class="bar"><i style="width:31%;background:linear-gradient(90deg,#C8761F,#B2472F)"></i></div><span class="A-meta">44m</span></div>
+          </div>
+          <div class="A-sect">
+            <div class="lbl">Tending record</div>
+            <div class="A-tend"><div><b>212</b>saves given</div><div><b>37</b>branches grown</div><div><b>9</b>fires outlived their maker</div></div>
+          </div>
+          <div class="A-sect"><div class="lbl">Ash record</div><div class="A-meta">41 posts lived and died · longest fire 6d 2h</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">Profile logic: identity, then standing and epoch, then <b>what is burning now</b>, then the tending record. Contribution sits above authorship because the economy tilts the same way. The ash record closes the page: mortality stated plainly, no shame attached.</p>
+</section>
+
+<!-- ================= SCHEMA B ================= -->
+<section class="panel" id="pB" role="tabpanel">
+  <div class="schemahead"><h3>Tinder &amp; Ash</h3><span class="tagline">paper light · the color budget schema</span></div>
+  <p class="claim"><b>Claim:</b> spend the entire color budget on mortality. Chrome, text, and layout stay achromatic paper and char; the only saturated color anywhere on screen is life state. A glance at any distance shows you what is alive. <b>It gives up:</b> atmosphere. It reads as a quiet reading tool, which suits long-form communities and doubles as the print identity.</p>
+  <div class="tokens">
+    <div class="swatch"><div class="chip" style="background:#F6F3EC"></div><div class="nm">paper #F6F3EC</div></div>
+    <div class="swatch"><div class="chip" style="background:#FFFFFF"></div><div class="nm">card #FFFFFF</div></div>
+    <div class="swatch"><div class="chip" style="background:#2A2620"></div><div class="nm">char #2A2620</div></div>
+    <div class="swatch"><div class="chip" style="background:#C8761F"></div><div class="nm">life #C8761F</div></div>
+    <div class="swatch"><div class="chip" style="background:#B2472F"></div><div class="nm">dying #B2472F</div></div>
+    <div class="swatch"><div class="chip" style="background:#8A8178"></div><div class="nm">ash #8A8178</div></div>
+  </div>
+  <div class="typerow">
+    <div class="typecell"><div class="lbl">Display + post body · Fraunces</div><div class="ex" style="font-family:'Fraunces',serif;font-size:19px">Posts read like set type.</div></div>
+    <div class="typecell"><div class="lbl">UI · Schibsted Grotesk</div><div class="ex">Chrome stays out of the way.</div></div>
+    <div class="typecell"><div class="lbl">Data · Spline Sans Mono</div><div class="ex" style="font-family:'Spline Sans Mono',monospace;font-size:12.5px">68% · 14 keepers</div></div>
+  </div>
+  <div class="sig"><span class="lbl">SIGNATURE ELEMENT</span><br>The <b>life ring</b>: a thin conic ring that empties as a post dies, doubling as the avatar frame on profiles. One glyph carries the whole mortality story, and since color means only life, a page of gray rings tells you a room is starving before you read a word.</div>
+
+  <div class="demo-pair">
+    <div class="demo-slot">
+      <div class="cap">Post card · healthy / critical</div>
+      <div class="B-stage">
+        <div class="B-card">
+          <div class="B-top"><span class="B-handle">@riverkeeper</span><span class="B-meta">Flame · 2h 41m</span></div>
+          <div class="B-body">Finished the netting bench tonight. Third rebuild. The joints finally hold.</div>
+          <div class="B-life"><div class="B-ring"><i>68</i></div><span class="B-lifetext">14 keepers · decay ×0.96</span></div>
+          <div class="B-chips"><span class="B-chip">⟡ Kindling Age</span><span class="B-chip live">Flame</span><span class="B-chip">deepburn</span></div>
+          <div class="B-acts"><button class="B-save">Save it · 3🔥</button><button class="B-ghost">Add to it · 6🔥</button></div>
+        </div>
+        <div class="B-card low" style="margin-top:14px">
+          <div class="B-top"><span class="B-handle">@mossline</span><span class="B-meta" style="color:#B2472F">Ember · 9m · critical</span></div>
+          <div class="B-body">Does anyone else's grandmother narrate her own cooking. Asking with love.</div>
+          <div class="B-life"><div class="B-ring"><i>12</i></div><span class="B-lifetext" style="color:#B2472F">clutch window open · decay ×1.31</span></div>
+          <div class="B-acts"><button class="B-save" style="background:#B2472F">Clutch save · 3🔥</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-slot">
+      <div class="cap">Profile · the ledger of a keeper</div>
+      <div class="B-stage">
+        <div class="B-prof">
+          <div class="head">
+            <div class="ring"><i>S</i></div>
+            <div><h4>@stillwater</h4><div class="std">Standing <b>Blaze +0.8</b> · ⟡ First Flame · Founder</div></div>
+          </div>
+          <div class="B-cols">
+            <div>
+              <div class="lbl">Burning now</div>
+              <div class="B-burning"><span>the bench post</span><span>64%</span></div>
+              <div class="B-burning"><span>river map thread</span><span style="color:#B2472F">31%</span></div>
+            </div>
+            <div>
+              <div class="lbl">Tending record</div>
+              <div class="B-burning"><span>saves given</span><span>212</span></div>
+              <div class="B-burning"><span>branches grown</span><span>37</span></div>
+              <div class="B-burning B-ashrow"><span>ash record</span><span>41 died</span></div>
+            </div>
+          </div>
+          <div class="B-foot">avatar ring = life of their strongest current fire · gray ring = nothing burning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">The avatar ring is the schema's profile move: your identity literally wears the health of your best living fire. Nothing burning reads as a gray ring, an honest and gentle nudge with no number attached.</p>
+</section>
+
+<!-- ================= SCHEMA C ================= -->
+<section class="panel" id="pC" role="tabpanel">
+  <div class="schemahead"><h3>Signalfire</h3><span class="tagline">the night watch · instrument-forward</span></div>
+  <p class="claim"><b>Claim:</b> the feed is a watchtower. Cold night surfaces, one signal color, and data surfaced as first-class UI: decay rates, distinct-keeper counts, regime readouts. Built for the community that will eventually want the open zone. <b>It gives up:</b> softness. Casual users can find it clinical, so it fits best as the opt-in "open zone" skin layered over Hearthlight rather than the default.</p>
+  <div class="tokens">
+    <div class="swatch"><div class="chip" style="background:#10141C"></div><div class="nm">night #10141C</div></div>
+    <div class="swatch"><div class="chip" style="background:#161C28"></div><div class="nm">panel #161C28</div></div>
+    <div class="swatch"><div class="chip" style="background:#F2B441"></div><div class="nm">signal #F2B441</div></div>
+    <div class="swatch"><div class="chip" style="background:#E05A3A"></div><div class="nm">dying #E05A3A</div></div>
+    <div class="swatch"><div class="chip" style="background:#6E7891"></div><div class="nm">dim #6E7891</div></div>
+    <div class="swatch"><div class="chip" style="background:#DCE2EE"></div><div class="nm">text #DCE2EE</div></div>
+  </div>
+  <div class="typerow">
+    <div class="typecell"><div class="lbl">Display · Fraunces (sparing)</div><div class="ex" style="font-family:'Fraunces',serif;font-size:19px">Numbers get the serif.</div></div>
+    <div class="typecell"><div class="lbl">Body · Schibsted Grotesk</div><div class="ex">Content stays human.</div></div>
+    <div class="typecell"><div class="lbl">Instrument · Spline Sans Mono</div><div class="ex" style="font-family:'Spline Sans Mono',monospace;font-size:12.5px">KEEPERS 14 · ×0.96 · T−2:41</div></div>
+  </div>
+  <div class="sig"><span class="lbl">SIGNATURE ELEMENT</span><br>The <b>death rail</b>: a vertical gauge on every card's leading edge, and a feed sort that can align the rails into one column, turning the feed into triage. The rail makes "closest to death" scannable at reading speed, which is the whole skill expression of clutch play.</div>
+
+  <div class="demo-pair">
+    <div class="demo-slot">
+      <div class="cap">Post card · healthy / critical</div>
+      <div class="C-stage">
+        <div class="C-card">
+          <div class="C-rail"><span class="t">LIFE</span><div class="gauge"><i></i></div><span class="pct">64</span></div>
+          <div class="C-main">
+            <div class="C-top"><b>@riverkeeper</b><span>⟡ KINDLING · FLAME</span></div>
+            <div class="C-body">Finished the netting bench tonight. Third rebuild. The joints finally hold.</div>
+            <div class="C-data"><span>T−<b>2:41</b></span><span>KEEPERS <b>14</b></span><span>DECAY <b>×0.96</b></span><span>BRANCHES <b>3</b></span></div>
+            <div class="C-acts"><button class="C-save">SAVE · 3🔥</button><button class="C-ghost">ADD · 6🔥</button></div>
+          </div>
+        </div>
+        <div class="C-card low" style="margin-top:14px">
+          <div class="C-rail"><span class="t">LIFE</span><div class="gauge"><i></i></div><span class="pct">09</span></div>
+          <div class="C-main">
+            <div class="C-top"><b>@mossline</b><span style="color:#E05A3A">CRITICAL · CLUTCH OPEN</span></div>
+            <div class="C-body">Does anyone else's grandmother narrate her own cooking. Asking with love.</div>
+            <div class="C-data"><span style="color:#E05A3A">T−<b style="color:#E05A3A">0:09</b></span><span>KEEPERS <b>4</b></span><span>DECAY <b>×1.31</b></span></div>
+            <div class="C-acts"><button class="C-save" style="background:#E05A3A;color:#fff">CLUTCH SAVE · 3🔥</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-slot">
+      <div class="cap">Profile · the keeper's instrument panel</div>
+      <div class="C-stage">
+        <div class="C-prof">
+          <div class="head">
+            <div><h4>@stillwater</h4><div class="std">STANDING <b>BLAZE +0.8</b> · FOUNDER</div></div>
+            <span class="C-badge">⟡ FIRST FLAME</span>
+          </div>
+          <div class="C-grid">
+            <div><div class="v">212</div><div class="k">saves given</div></div>
+            <div><div class="v">37</div><div class="k">branches</div></div>
+            <div><div class="v">6d 2h</div><div class="k">longest fire</div></div>
+          </div>
+          <div class="C-list">
+            <div class="lbl">Burning now</div>
+            <div class="C-fire"><span style="min-width:118px">the bench post</span><div class="g"><i style="width:64%"></i></div><span class="pc">64</span></div>
+            <div class="C-fire"><span style="min-width:118px">river map thread</span><div class="g"><i style="width:31%;background:#E05A3A"></i></div><span class="pc">31</span></div>
+            <div class="lbl" style="margin-top:12px">Ash record</div>
+            <div class="C-fire" style="color:#6E7891"><span>41 fires lived and died · full record kept</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">The stat row leads with saves given, never followers. Signalfire is the one schema where showing raw numbers is the point, so the anti-vanity rule matters most here: every number on the panel is something the person <b>did</b>, not something they accumulated by being watched.</p>
+</section>
+
+<!-- ================= PROFILES ================= -->
+<h2 class="sec"><span class="n">03</span>The profile model all three schemas share</h2>
+<p class="lead">Whatever the skin, a profile is <b>a hearth someone keeps, not a trophy wall</b>. The information order is fixed; only the dress changes.</p>
+<div class="gridrules">
+  <div class="rulecard"><h4>1 · Identity and standing</h4>
+    <ul><li>Handle, avatar, standing (grade + party-lift), epoch mark. Founder marks render first and cannot be purchased or transferred.</li>
+    <li>Standing is the only rank shown. No follower count anywhere on the primary surface.</li></ul></div>
+  <div class="rulecard"><h4>2 · Titles that work</h4>
+    <ul><li>Earned titles render as chips with their mechanical effect one tap away. A title with no effect does not ship.</li>
+    <li>Order: founder marks, then ascension titles, then milestone titles.</li></ul></div>
+  <div class="rulecard"><h4>3 · Burning now</h4>
+    <ul><li>The person's living posts with live lifelines. This is the profile's centerpiece: what they have at stake right now.</li>
+    <li>Empty state invites action: "Nothing burning. Light something."</li></ul></div>
+  <div class="rulecard"><h4>4 · Tending record, then ash</h4>
+    <ul><li>Contribution stats lead: saves given, branches grown, fires kept alive past their maker's last visit. Authorship stats follow.</li>
+    <li>The ash record closes the page. Deaths are stated plainly with duration, never hidden. Mortality is history, not failure.</li></ul></div>
+</div>
+
+<!-- ================= STANDARDS ================= -->
+<h2 class="sec"><span class="n">04</span>Standardized element list</h2>
+<p class="lead">The canonical UI vocabulary. Every schema implements these under its own dress. Tier matches the playbook: cut a SPINE element and the interface no longer tells the truth about the model.</p>
+<div class="legend"><b class="spine">SPINE</b> must ship, phase 1 &nbsp;·&nbsp; <b class="core">CORE</b> ships with its mechanic, phase 2 &nbsp;·&nbsp; <b class="opt">OPT</b> optional layer</div>
+<table class="std">
+  <tr><th>Element</th><th>What it communicates &amp; rules of use</th><th>Design guidance</th></tr>
+  <tr><td class="el">Lifeline<span class="t spine">SPINE</span></td>
+      <td>The post's remaining life. <span class="r">Always visible on every card, every context, no exceptions.</span> Never color-only: pair with percent or time so color-blind users read the same truth.</td>
+      <td>One glyph per schema (wick, ring, rail). Position fixed across the whole app so the eye learns one place to look.</td></tr>
+  <tr><td class="el">Time-to-death<span class="t spine">SPINE</span></td>
+      <td>Absolute remaining time. Switches to minutes under one hour, adds the critical state under 15%. Rounds honestly, never dramatizes.</td>
+      <td>Utility mono, adjacent to the lifeline. Critical state may pulse once per breath; respect reduced-motion by swapping pulse for a static badge.</td></tr>
+  <tr><td class="el">Save action<span class="t spine">SPINE</span></td>
+      <td>The core verb. Shows its ember cost before tap and confirms the life added after. <span class="r">Largest interactive target on the card.</span> Label stays "Save" through the whole flow.</td>
+      <td>The only button rendered in the life color at full saturation. Everything else yields.</td></tr>
+  <tr><td class="el">Clutch flare<span class="t spine">SPINE</span></td>
+      <td>Marks the clutch window (life under 15%) and celebrates a clutch save. The skill moment of the whole app; the celebration credits the saver by handle.</td>
+      <td>The one place per schema where motion spends its budget. Cool spark tone (blue-white) so it reads as rescue, never as alarm.</td></tr>
+  <tr><td class="el">Keeper count<span class="t spine">SPINE</span></td>
+      <td>Distinct people sustaining the post. <span class="r">Shown as people, never as raw repost volume,</span> because distinct care is the number the model actually runs on.</td>
+      <td>"14 keepers" reads better than "14 reposts." Tap opens the roll of who showed up, newest first.</td></tr>
+  <tr><td class="el">Decay pill<span class="t spine">SPINE</span></td>
+      <td>The post's effective decay multiplier (×0.96, ×1.31). Folds every modifier into one honest number. Warm color above 1, cool below, neutral at 1.</td>
+      <td>Tap explains the ingredients in plain words: "Storm +0.8 · deepburn −0.2." Transparency is the feature.</td></tr>
+  <tr><td class="el">Canonical pointer<span class="t spine">SPINE</span></td>
+      <td>On any reshare card: routes to the one true original. <span class="r">A reshare never renders as a standalone copy.</span></td>
+      <td>"↳ to @riverkeeper's post" as a persistent header line on every derived card.</td></tr>
+  <tr><td class="el">Ash card<span class="t spine">SPINE</span></td>
+      <td>A dead post's marker: duration lived, keepers at death, epoch. Content is gone; the record remains. Death renders as history, not error.</td>
+      <td>Desaturated to the schema's ash tone. No red. A death is an ending, not a failure state.</td></tr>
+  <tr><td class="el">Ember meter<span class="t core">CORE</span></td>
+      <td>The player's regenerating action budget. Persistent but quiet; every action shows its cost at the point of action, not in a manual.</td>
+      <td>Thin bar in the app chrome, never inside cards. When empty, actions gray out with a regen countdown instead of an error.</td></tr>
+  <tr><td class="el">Grade badge<span class="t core">CORE</span></td>
+      <td>The post's grade (Spark→Inferno) and therefore its life ceiling. Grade colors stay within the life ramp so the ladder reads as heat.</td>
+      <td>Word plus glyph, not glyph alone. Ascension moment gets one celebratory beat, then returns to quiet.</td></tr>
+  <tr><td class="el">Epoch chip<span class="t core">CORE</span></td>
+      <td>The regime the post was born in, and its buffering. Founder epochs render distinct (the one violet exception to every palette) because they cannot recur.</td>
+      <td>⟡ prefix reserved for epochs alone. Tap explains the buffer in one sentence.</td></tr>
+  <tr><td class="el">Trait &amp; title chips<span class="t core">CORE</span></td>
+      <td>Earned mechanics that do work (deepburn, anchor, Clutch Hand). <span class="r">Every chip's effect is one tap away.</span> A chip that does nothing does not ship.</td>
+      <td>Small, mono, bordered. Cap visible chips at three plus overflow, so cards never turn into medal racks.</td></tr>
+  <tr><td class="el">Branch node<span class="t core">CORE</span></td>
+      <td>A contribution with its own life, channeling upward. Renders nested under the canonical original with its own small lifeline.</td>
+      <td>Indent one level only, then "view tree." The tree view is where branch depth lives; the feed stays shallow.</td></tr>
+  <tr><td class="el">Standing display<span class="t core">CORE</span></td>
+      <td>A person's grade plus party-lift ("Blaze +0.8"). The lift is visible and bounded so leadership reads as carried-up, never self-made.</td>
+      <td>Handle-adjacent everywhere the handle appears. Tap shows who lifted them: the roster is the point.</td></tr>
+  <tr><td class="el">Hearth readout<span class="t core">CORE</span></td>
+      <td>Community-scoped health: epoch, density, current regime. <span class="r">Scoped to a room, never global,</span> per the playbook's dashboard rule.</td>
+      <td>Lives in the community header. A cooling room is a rally cue, so pair it with the room's most critical posts.</td></tr>
+  <tr><td class="el">Reorder pill<span class="t core">CORE</span></td>
+      <td>Feed changed while reading. The feed never reorders under a reading user; new order arrives on tap.</td>
+      <td>Floating pill, top center: "feed shifted · 4 new." Reading position is sacred.</td></tr>
+  <tr><td class="el">Clash frame<span class="t opt">OPT</span></td>
+      <td>Wraps a post that entered the open zone: opponent, stakes, weight class. <span class="r">Renders only inside the open zone.</span> The safe hearth never shows clash chrome.</td>
+      <td>Signalfire dress regardless of base schema, so crossing into the open zone reads as entering a different room.</td></tr>
+  <tr><td class="el">Sprout marker<span class="t opt">OPT</span></td>
+      <td>An orphaned branch rallying to take root: countdown plus fresh keepers needed. High-drama, short-lived.</td>
+      <td>Borrow the clutch flare's spark tone. The "took root" moment credits every rallier.</td></tr>
+</table>
+
+<!-- ================= GLOBAL STANDARDS ================= -->
+<h2 class="sec"><span class="n">05</span>Global standards, whichever schema wins</h2>
+<div class="gridrules">
+  <div class="rulecard"><h4>Color speaks life, and only life</h4>
+    <div class="lifescale">
+      <div style="background:#D9A441">gold · full</div><div style="background:#C8761F">ember · fading</div><div style="background:#B2472F">red · critical</div><div style="background:#8A8178">ash · dead</div>
+    </div>
+    <ul><li>The life ramp is reserved. No decorative use of gold, ember, red, or ash anywhere else in the interface.</li>
+    <li>Two exceptions, both earned: spark blue for clutch rescue, epoch violet for founder marks.</li>
+    <li>State never rides on color alone. Percent, time, or a word always rides along.</li></ul></div>
+  <div class="rulecard"><h4>Motion has one budget</h4>
+    <ul><li>Spend it on the clutch flare and ascension. Decay itself never animates in alarm; a dying post fades and slows, it does not flash.</li>
+    <li>Respect prefers-reduced-motion by swapping every animation for a static state change, and design that static state first.</li>
+    <li>No infinite ambient animation in the feed. Calm is a retention feature for an app about loss.</li></ul></div>
+  <div class="rulecard"><h4>Numbers must do work</h4>
+    <ul><li>Every number on screen changes a decision: life, time, cost, keepers, decay. Ship no number that exists to be admired.</li>
+    <li>Contribution counts before authorship counts, everywhere, in every schema.</li>
+    <li>Follower counts do not exist on primary surfaces. Standing is the rank, and standing is earned through others.</li></ul></div>
+  <div class="rulecard"><h4>Type roles stay fixed</h4>
+    <ul><li>Display serif (Fraunces) for identity moments: wordmark, grades, big durations. Used with restraint.</li>
+    <li>Grotesk for content and controls. Mono for every number the model produces, so "model truth" has a recognizable voice.</li>
+    <li>Post body may take the serif only in Tinder &amp; Ash, where reading is the point.</li></ul></div>
+  <div class="rulecard"><h4>Honesty rules</h4>
+    <ul><li>Deaths are never hidden, softened into "archived," or animated as punishment. A death is stated, dated, and kept.</li>
+    <li>Every mechanical state is inspectable in one tap, in plain words. If a tooltip needs jargon, rename the mechanic.</li>
+    <li>The interface never manufactures urgency the model did not produce. The countdown is the truth; it needs no help.</li></ul></div>
+  <div class="rulecard"><h4>Accessibility floor</h4>
+    <ul><li>4.5:1 contrast for text in every schema, including on the warm darks. Life-state pairs checked for the eight common CVD types.</li>
+    <li>Full keyboard path: save, add, clutch. Focus rings use the schema's spark or signal tone, never the life ramp.</li>
+    <li>Lifelines expose their value to screen readers as "life 68 percent, 2 hours 41 minutes remaining."</li></ul></div>
+</div>
+
+<h2 class="sec"><span class="n">06</span>Recommendation</h2>
+<p class="lead">Ship <b>Hearthlight</b> as the identity. It is the only schema that makes the density regime <i>felt</i> (a dim room is a starving room) and its warmth counterweights the app's central fact, which is loss. Hold <b>Signalfire</b> as the open-zone dress so entering the adversarial layer reads as walking out of the warm room into the night watch, and keep <b>Tinder &amp; Ash</b> as the print and marketing skin, where its color-budget rule turns every screenshot into an argument for the product. One spine, three rooms, no dilution.</p>
+
+<footer>repost · front-end design schemas · companion to the prototype, sell sheet, and builder's playbook · life state outranks everything</footer>
+</div>
+
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.setAttribute('aria-selected',x===t?'true':'false'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===t.dataset.p));
+}));
+</script>
+</body>
+</html>
